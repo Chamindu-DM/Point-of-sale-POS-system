@@ -114,6 +114,6 @@ pos-system/
 Distributed under the MIT License.
 
 ## Additional Resources
-- [.NET Core Documentation](https://docs.microsoft.com/dotnet/)
-- [React Documentation](https://reactjs.org/docs/)
-- [Entity Framework Core](https://docs.microsoft.com/ef/core/)
+- [.NET Core Documentation](https://learn.microsoft.com/en-us/dotnet/)
+- [React Documentation](https://legacy.reactjs.org/docs/getting-started.html)
+- [Entity Framework Core](https://learn.microsoft.com/en-us/ef/)
