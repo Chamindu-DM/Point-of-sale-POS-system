@@ -12,48 +12,41 @@ A comprehensive Point of Sale system designed to manage sales, inventory, and us
 - Role-based Access Control
 
 ## Technology Stack
-- Backend: Python, Django, Django REST Framework
-- Frontend: React.js
-- Database: PostgreSQL
-- Authentication: JWT
+- Backend: C# .NET Core
+- Frontend: JavaScript (React.js)
+- Database: SQL Server
+- Authentication: JWT (JSON Web Tokens)
 
 ## Prerequisites
-- Python 3.9+
-- Node.js 14+
-- PostgreSQL
-- pip
+- .NET Core SDK 6.0+ 
+- Node.js 16+
+- SQL Server
+- Visual Studio or Visual Studio Code
 - npm
 
-## Backend Setup
+## Backend Setup (.NET Core)
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/pos-system.git
+git clone https://github.com/Chamindu-DM/Point-of-sale-POS-system
 cd pos-system/backend
 ```
 
-2. Create virtual environment
+2. Restore NuGet Packages
 ```bash
-python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+dotnet restore
 ```
 
-3. Install dependencies
+3. Database Migration
 ```bash
-pip install -r requirements.txt
+dotnet ef database update
 ```
 
-4. Database Setup
+4. Run Backend Server
 ```bash
-python manage.py makemigrations
-python manage.py migrate
+dotnet run
 ```
 
-5. Run Backend Server
-```bash
-python manage.py runserver
-```
-
-## Frontend Setup
+## Frontend Setup (React)
 1. Navigate to frontend directory
 ```bash
 cd ../frontend
@@ -61,12 +54,43 @@ npm install
 npm start
 ```
 
-## Running Tests
-- Backend: `python manage.py test`
-- Frontend: `npm test`
+## Project Structure
+```
+pos-system/
+│
+├── backend/             # .NET Core Web API
+│   ├── Controllers/     # API Controllers
+│   ├── Models/          # Data Models
+│   ├── Services/        # Business Logic
+│   ├── Data/            # Database Context
+│   └── appsettings.json # Configuration
+│
+├── frontend/            # React Application
+│   ├── src/
+│   │   ├── components/  # Reusable React components
+│   │   ├── pages/       # Page components
+│   │   ├── services/    # API interaction
+│   │   └── utils/       # Utility functions
+│
+├── docs/                # Project documentation
+└── README.md            # Project overview
+```
 
-## Deployment
-Deployment instructions will be added after initial development phase.
+## Recommended NuGet Packages
+- Microsoft.EntityFrameworkCore
+- Microsoft.AspNetCore.Authentication.JwtBearer
+- AutoMapper
+- Swashbuckle.AspNetCore (Swagger)
+
+## Frontend NPM Packages
+- axios (HTTP requests)
+- react-router-dom
+- redux (state management)
+- antd or material-ui (UI components)
+
+## Running Tests
+- Backend: `dotnet test`
+- Frontend: `npm test`
 
 ## Contributing
 1. Fork the repository
@@ -75,5 +99,21 @@ Deployment instructions will be added after initial development phase.
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
+## Configuration
+- Update connection strings in `appsettings.json`
+- Configure JWT settings
+- Set up environment-specific configurations
+
+## Deployment Considerations
+- Use Azure or AWS for hosting
+- Configure CI/CD pipelines
+- Set up environment-specific configurations
+- Implement proper security measures
+
 ## License
 Distributed under the MIT License.
+
+## Additional Resources
+- [.NET Core Documentation](https://docs.microsoft.com/dotnet/)
+- [React Documentation](https://reactjs.org/docs/)
+- [Entity Framework Core](https://docs.microsoft.com/ef/core/)
