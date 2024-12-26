@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>POS System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="pos-container">
+        <header>
+            <h1>POS System</h1>
+        </header>
+
+        <main>
+            <section class="product-list">
+                <h2>Products</h2>
+                <ul id="product-list">
+                    <li data-name="Product 1" data-price="10">
+                        Product 1 - $10 <button class="add-to-cart">Add to Cart</button>
+                    </li>
+                    <li data-name="Product 2" data-price="15">
+                        Product 2 - $15 <button class="add-to-cart">Add to Cart</button>
+                    </li>
+                    <li data-name="Product 3" data-price="20">
+                        Product 3 - $20 <button class="add-to-cart">Add to Cart</button>
+                    </li>
+                </ul>
+            </section>
+
+            <section class="cart">
+                <h2>Cart</h2>
+                <table id="cart-table">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <div class="cart-total">
+                    <strong>Total:</strong> $<span id="total-price">0.00</span>
+                </div>
+                <button id="checkout">Checkout</button>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
