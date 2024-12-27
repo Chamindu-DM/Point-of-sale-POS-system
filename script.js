@@ -5,48 +5,41 @@ document.addEventListener("DOMContentLoaded", () => {
     const amountPaidInput = document.getElementById("amount-paid");
     const balanceElement = document.getElementById("balance");
     let cart = [];
+    let cartItemId = 0;
+
+    function addToCart(name, price) {
+        const cartItem = {
+            id: cartItemId++,
+            name: name,
+            price: parseFloat(price),
+            quantity: 1
+        };
+        cart.push(cartItem);
+        updateCart();
+    }
 
     function updateCart() {
         cartTableBody.innerHTML = "";
         let totalPrice = 0;
 
-        cart.forEach((item, index) => {
+        cart.forEach((item) => {
             const row = document.createElement("tr");
-
-            const nameCell = document.createElement("td");
-            nameCell.textContent = item.name;
-
-            const priceCell = document.createElement("td");
-            priceCell.textContent = `$${item.price.toFixed(2)}`;
-
-            const quantityCell = document.createElement("td");
-            quantityCell.textContent = item.quantity;
-
-            const totalCell = document.createElement("td");
-            const itemTotal = item.price * item.quantity;
-            totalCell.textContent = `$${itemTotal.toFixed(2)}`;
-
-            const actionCell = document.createElement("td");
-            const removeButton = document.createElement("button");
-            removeButton.textContent = "Remove";
-            removeButton.classList.add("remove-item");
-            removeButton.addEventListener("click", () => {
-                cart.splice(index, 1);
-                updateCart();
-            });
-            actionCell.appendChild(removeButton);
-
-            row.appendChild(nameCell);
-            row.appendChild(priceCell);
-            row.appendChild(quantityCell);
-            row.appendChild(totalCell);
-            row.appendChild(actionCell);
-
+            row.innerHTML = `
+                <td>${item.name}</td>
+                <td>$${item.price.toFixed(2)}</td>
+                <td>
+                    <button class="quantity-btn minus" data-item-id="${item.id}">-</button>
+                    <span class="quantity-value">${item.quantity}</span>
+                    <button class="quantity-btn plus" data-item-id="${item.id}">+</button>
+                </td>
+                <td>$${(item.price * item.quantity).toFixed(2)}</td>
+                <td>
+                    <button class="remove-item" data-item-id="${item.id}">Remove</button>
+                </td>
+            `;
             cartTableBody.appendChild(row);
-
-            totalPrice += itemTotal;
+            totalPrice += item.price * item.quantity;
         });
-
         totalPriceElement.textContent = totalPrice.toFixed(2);
     }
 
@@ -60,7 +53,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
-                cart.push({ name, price, quantity: 1 });
+                addToCart(name, price);
             }
 
             updateCart();
@@ -95,5 +88,33 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCart();
         amountPaidInput.value = "";
         balanceElement.textContent = "0.00";
+    });
+
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('remove-item')) {
+            const itemId = parseInt(e.target.getAttribute('data-item-id'));
+            cart = cart.filter(item => item.id !== itemId);
+            updateCart();
+        }
+    });
+
+    document.addEventListener('click', function(e) {
+        if (e.target.classList.contains('quantity-btn')) {
+            const itemId = parseInt(e.target.getAttribute('data-item-id'));
+            const isPlus = e.target.classList.contains('plus');
+            
+            const itemIndex = cart.findIndex(item => item.id === itemId);
+            if (itemIndex !== -1) {
+                if (isPlus) {
+                    cart[itemIndex].quantity++;
+                } else {
+                    cart[itemIndex].quantity--;
+                    if (cart[itemIndex].quantity === 0) {
+                        cart = cart.filter(item => item.id !== itemId);
+                    }
+                }
+                updateCart();
+            }
+        }
     });
 });
