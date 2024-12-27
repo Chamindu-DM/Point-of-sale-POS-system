@@ -2,6 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const productList = document.getElementById("product-list");
     const cartTableBody = document.querySelector("#cart-table tbody");
     const totalPriceElement = document.getElementById("total-price");
+    const amountPaidInput = document.getElementById("amount-paid");
+    const balanceElement = document.getElementById("balance");
     let cart = [];
 
     function updateCart() {
@@ -65,14 +67,33 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 
+    amountPaidInput.addEventListener("input", () => {
+        const amountPaid = parseFloat(amountPaidInput.value) || 0;
+        const total = parseFloat(totalPriceElement.textContent);
+        const balance = amountPaid - total;
+        balanceElement.textContent = Math.max(0, balance).toFixed(2);
+    });
+
     document.getElementById("checkout").addEventListener("click", () => {
         if (cart.length === 0) {
             alert("Your cart is empty.");
             return;
         }
 
-        alert("Checkout successful! Total: $" + totalPriceElement.textContent);
+        const total = parseFloat(totalPriceElement.textContent);
+        const amountPaid = parseFloat(amountPaidInput.value) || 0;
+
+        if (amountPaid < total) {
+            alert("Insufficient payment amount!");
+            return;
+        }
+
+        const balance = amountPaid - total;
+        alert(`Checkout successful!\nTotal: $${total.toFixed(2)}\nAmount Paid: $${amountPaid.toFixed(2)}\nChange Due: $${balance.toFixed(2)}`);
+        
         cart = [];
         updateCart();
+        amountPaidInput.value = "";
+        balanceElement.textContent = "0.00";
     });
 });
