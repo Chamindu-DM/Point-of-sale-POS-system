@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const balanceElement = document.getElementById("balance");
     let cart = [];
     let cartItemId = 0;
+    let currentInvoiceNumber = 1;
 
     function addToCart(name, price) {
         const cartItem = {
@@ -18,11 +19,44 @@ document.addEventListener("DOMContentLoaded", () => {
         updateCart();
     }
 
+    function generateInvoiceNumber() {
+        const date = new Date();
+        const year = date.getFullYear().toString().slice(-2);
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        return `INV${year}${month}${day}-${currentInvoiceNumber++}`;
+    }
+
+    function getCurrentDateTime() {
+        const now = new Date();
+        const date = now.toLocaleDateString();
+        const time = now.toLocaleTimeString();
+        return { date, time };
+    }
+
     function updateCart() {
         cartTableBody.innerHTML = "";
         let totalPrice = 0;
 
+        // Add invoice header
+        const { date, time } = getCurrentDateTime();
+        const invoiceHeader = document.createElement("tr");
+        invoiceHeader.innerHTML = `
+            <td colspan="5">
+                <div class="invoice-header">
+                    <div><strong>Invoice No:</strong> ${generateInvoiceNumber()}</div>
+                    <div><strong>Date:</strong> ${date}</div>
+                    <div><strong>Time:</strong> ${time}</div>
+                </div>
+            </td>
+        `;
+        cartTableBody.appendChild(invoiceHeader);
+
+        // Add cart items
         cart.forEach((item) => {
+            const itemTotal = item.price * item.quantity;
+            totalPrice += itemTotal;
+            
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${item.name}</td>
@@ -32,14 +66,23 @@ document.addEventListener("DOMContentLoaded", () => {
                     <span class="quantity-value">${item.quantity}</span>
                     <button class="quantity-btn plus" data-item-id="${item.id}">+</button>
                 </td>
-                <td>$${(item.price * item.quantity).toFixed(2)}</td>
-                <td>
-                    <button class="remove-item" data-item-id="${item.id}">Remove</button>
-                </td>
+                <td>$${itemTotal.toFixed(2)}</td>
+                <td><button class="remove-item" data-item-id="${item.id}">Remove</button></td>
             `;
             cartTableBody.appendChild(row);
-            totalPrice += item.price * item.quantity;
         });
+
+        // Add bill total
+        if (cart.length > 0) {
+            const totalRow = document.createElement("tr");
+            totalRow.innerHTML = `
+                <td colspan="5" class="bill-total">
+                    <strong>Total Amount: $${totalPrice.toFixed(2)}</strong>
+                </td>
+            `;
+            cartTableBody.appendChild(totalRow);
+        }
+
         totalPriceElement.textContent = totalPrice.toFixed(2);
     }
 
@@ -75,6 +118,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const total = parseFloat(totalPriceElement.textContent);
         const amountPaid = parseFloat(amountPaidInput.value) || 0;
+        const { date, time } = getCurrentDateTime();
+        const invoiceNo = generateInvoiceNumber();
 
         if (amountPaid < total) {
             alert("Insufficient payment amount!");
@@ -82,7 +127,20 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const balance = amountPaid - total;
-        alert(`Checkout successful!\nTotal: $${total.toFixed(2)}\nAmount Paid: $${amountPaid.toFixed(2)}\nChange Due: $${balance.toFixed(2)}`);
+        alert(
+            `Invoice No: ${invoiceNo}\n` +
+            `Date: ${date}\n` +
+            `Time: ${time}\n` +
+            `------------------\n` +
+            cart.map(item => 
+                `${item.name} x${item.quantity}: $${(item.price * item.quantity).toFixed(2)}\n`
+            ).join('') +
+            `Total: $${total.toFixed(2)}\n` +
+            `Amount Paid: $${amountPaid.toFixed(2)}\n` +
+            `Change Due: $${balance.toFixed(2)}\n` +
+            `------------------\n` +
+            `Thank you for your purchase!`
+        );
         
         cart = [];
         updateCart();

@@ -91,6 +91,15 @@ h1 {
     border: 1px solid #ddd;
 }
 
+.cart td[colspan="5"] {
+    border-bottom: 2px solid #ddd;
+    padding: 15px;
+}
+
+.cart td[colspan="5"] div {
+    line-height: 1.5;
+}
+
 .cart-total {
     margin-top: 10px;
     font-size: 1.2em;
@@ -155,10 +164,27 @@ h1 {
     cursor: pointer;
 }
 
-.quantity-btn:hover {
+quantity-btn:hover {
     background: #e9ecef;
 }
 
 .quantity-value {
     margin: 0 8px;
+}
+
+.invoice-header {
+    padding: 10px;
+    border-bottom: 2px solid #ddd;
+    margin-bottom: 10px;
+}
+
+.invoice-header div {
+    line-height: 1.5;
+}
+
+.bill-total {
+    padding: 10px;
+    border-top: 2px solid #ddd;
+    text-align: right;
+    font-size: 1.2em;
 }
