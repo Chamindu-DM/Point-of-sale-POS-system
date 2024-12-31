@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let cart = [];
     let cartItemId = 0;
     let currentInvoiceNumber = 1;
+    let dailySales = [];
 
     function addToCart(name, price) {
         const cartItem = {
@@ -86,6 +87,59 @@ document.addEventListener("DOMContentLoaded", () => {
         totalPriceElement.textContent = totalPrice.toFixed(2);
     }
 
+    function recordSale(transaction) {
+        dailySales.push({
+            invoiceNo: transaction.invoiceNo,
+            timestamp: new Date(),
+            items: [...cart],
+            total: transaction.total,
+            amountPaid: transaction.amountPaid,
+            change: transaction.change
+        });
+    }
+
+    function showSalesRecord() {
+        let salesHTML = `
+            <div class="sales-record">
+                <h2>Daily Sales Record</h2>
+                <div class="sales-summary">
+                    <p>Total Transactions: ${dailySales.length}</p>
+                    <p>Total Revenue: $${calculateTotalRevenue()}</p>
+                </div>
+                <table class="sales-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice No</th>
+                            <th>Time</th>
+                            <th>Items</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${generateSalesRows()}
+                    </tbody>
+                </table>
+            </div>
+        `;
+        
+        document.querySelector('.pos-container').innerHTML = salesHTML;
+    }
+
+    function calculateTotalRevenue() {
+        return dailySales.reduce((sum, sale) => sum + sale.total, 0).toFixed(2);
+    }
+
+    function generateSalesRows() {
+        return dailySales.map(sale => `
+            <tr>
+                <td>${sale.invoiceNo}</td>
+                <td>${sale.timestamp.toLocaleTimeString()}</td>
+                <td>${sale.items.map(item => `${item.name}(${item.quantity})`).join(', ')}</td>
+                <td>$${sale.total.toFixed(2)}</td>
+            </tr>
+        `).join('');
+    }
+
     productList.addEventListener("click", (e) => {
         if (e.target.classList.contains("add-to-cart")) {
             const productElement = e.target.parentElement;
@@ -142,6 +196,15 @@ document.addEventListener("DOMContentLoaded", () => {
             `Thank you for your purchase!`
         );
         
+        const transaction = {
+            invoiceNo: invoiceNo,
+            total: total,
+            amountPaid: amountPaid,
+            change: balance
+        };
+        
+        recordSale(transaction);
+
         cart = [];
         updateCart();
         amountPaidInput.value = "";
@@ -175,4 +238,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     });
+
+    document.getElementById("view-sales").addEventListener("click", showSalesRecord);
 });
