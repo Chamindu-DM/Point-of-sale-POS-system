@@ -1,7 +1,7 @@
 import React from 'react';
 import CartItem from './CartItem';
 
-const Cart = ({ cart, onRemoveFromCart, total }) => {
+const Cart = ({ cart, onRemoveFromCart, onAdjustQuantity, total }) => {
     return (
         <div className="cart">
             <table>
@@ -27,6 +27,7 @@ const Cart = ({ cart, onRemoveFromCart, total }) => {
                                 key={item.name}
                                 item={item}
                                 onRemove={onRemoveFromCart}
+                                onAdjustQuantity={onAdjustQuantity}
                             />
                         ))
                     )}
