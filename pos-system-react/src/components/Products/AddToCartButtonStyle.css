@@ -1,0 +1,35 @@
+.add-to-cart-button {
+    all: unset;
+    align-items: center;
+    border-radius: 8px;
+    box-sizing: border-box;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    padding: 16px 0px;
+    position: relative;
+    width: 248px;
+}
+
+.add-to-cart-button .text-wrapper {
+    all: unset;
+    box-sizing: border-box;
+    color: #ffffff;
+    font-family: "SF Pro-Semibold", Helvetica;
+    font-size: 25px;
+    font-weight: 400;
+    letter-spacing: 0.14px;
+    line-height: 29.5px;
+    margin-top: -1.00px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+.add-to-cart-button.default {
+    background-color: #28a745;
+}
+
+.add-to-cart-button.hover {
+    background-color: #00000033;
+}

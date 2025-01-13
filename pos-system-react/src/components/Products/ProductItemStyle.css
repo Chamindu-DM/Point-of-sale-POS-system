@@ -1,0 +1,101 @@
+.product-item {
+    align-items: center;
+    background-color: #f9f9f9;
+    border: 1px solid;
+    border-color: #dddddd;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow: hidden;
+    padding: 16px;
+    position: relative;
+    width: 240px;
+}
+
+.product-item .image-container {
+    align-items: center;
+    align-self: stretch;
+    border-radius: 4px;
+    display: flex;
+    flex: 0 0 auto;
+    gap: 8px;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+
+.product-item .product-info {
+    align-items: center;
+    align-self: stretch;
+    display: flex;
+    flex: 0 0 auto;
+    gap: 8px;
+    justify-content: center;
+    padding: 8px 0px;
+    position: relative;
+    width: 100%;
+}
+
+.product-item .product-name {
+    color: #000000;
+    flex: 1;
+    font-family: "Inter Tight-Medium", Helvetica;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.14px;
+    line-height: normal;
+    margin-top: -1.00px;
+    position: relative;
+}
+
+.product-item .product-price {
+    color: #000000;
+    font-family: "Inter Tight-Medium", Helvetica;
+    font-size: 20px;
+    font-weight: 500;
+    letter-spacing: 0.14px;
+    line-height: normal;
+    margin-top: -1.00px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+.product-item .stock-info {
+    align-items: center;
+    align-self: stretch;
+    display: flex;
+    flex: 0 0 auto;
+    justify-content: space-between;
+    padding: 8px 0px;
+    position: relative;
+    width: 100%;
+}
+
+.product-item .div {
+    color: #000000;
+    font-family: "Inter Tight-Medium", Helvetica;
+    font-size: 17px;
+    font-weight: 500;
+    letter-spacing: 0.14px;
+    line-height: normal;
+    margin-top: -1.00px;
+    position: relative;
+    white-space: nowrap;
+    width: fit-content;
+}
+
+.product-item .add-to-cart-button-instance {
+    align-self: stretch !important;
+    flex: 0 0 auto !important;
+    width: 100% !important;
+}
+
+.product-item .design-component-instance-node {
+    font-family: "Inter Tight-SemiBold", Helvetica !important;
+    font-size: 20px !important;
+    font-weight: 600 !important;
+    line-height: normal !important;
+}

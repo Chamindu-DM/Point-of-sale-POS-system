@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import ProductList from "./components/Products/ProductList";
+import ProductItem from "./components/Products/ProductItem";
 import Cart from "./components/Cart/Cart";
 import CheckoutButton from "./components/Checkout/CheckoutButton";
 import NavBar from "./components/NavBar/NavBar";
@@ -9,9 +9,27 @@ const App = () => {
   const [cart, setCart] = useState([]);
 
   const products = [
-    { name: "Product 1", price: 10 },
-    { name: "Product 2", price: 15 },
-    { name: "Product 3", price: 20 },
+    { 
+      id: 1, 
+      name: "Tea Bun", 
+      price: 50, 
+      image: require("./assets/images/tea-bun.jpg"), 
+      stockQuantity: 12 
+    },
+    { 
+      id: 2, 
+      name: "Fish Bun", 
+      price: 70, 
+      image: require("./assets/images/fish-bun.jpg"), 
+      stockQuantity: 12 
+    },
+    { 
+      id: 3, 
+      name: "Chicken Puff", 
+      price: 250, 
+      image: require("./assets/images/chicken-puff.jpeg"), 
+      stockQuantity: 12 
+    }
   ];
 
   const addToCart = (product) => {
@@ -59,9 +77,9 @@ const App = () => {
       return;
     }
     alert(`Checkout successful! Total: $${calculateTotal().toFixed(2)}`);
-    setCart([]);
+    setCart([]); 
   };
-
+// Start of the UI
   return (
     <div className="app">
       <NavBar />
@@ -70,10 +88,18 @@ const App = () => {
           <h1>POS System</h1>
         </header>
         <main>
-          <ProductList 
-            products={products} 
-            onAddToCart={addToCart} 
-          />
+          <div className="product-grid">
+            {products.map((product) => (
+              <ProductItem
+                key={product.id}
+                image={product.image}
+                name={product.name}
+                price={`LKR ${product.price}`}
+                stockQuantity={product.stockQuantity}
+                onAddToCart={() => addToCart(product)}
+              />
+            ))}
+          </div>
           <Cart 
             cart={cart}
             onRemoveFromCart={removeFromCart}

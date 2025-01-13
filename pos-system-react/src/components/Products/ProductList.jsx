@@ -1,20 +1,6 @@
-import React from 'react';
-import ProductItem from './ProductItem';
+import React from "react";
+import "./ProductListStyle.css";
 
-const ProductList = ({ products, onAddToCart }) => {
-    return (
-        <div className="product-list">
-            <ul>
-                {products.map((product) => (
-                    <ProductItem
-                        key={product.name}
-                        product={product}
-                        onAddToCart={onAddToCart}
-                    />
-                ))}
-            </ul>
-        </div>
-    );
+export const ProductList = () => {
+    return <div className="product-list" />;
 };
-
-export default ProductList;

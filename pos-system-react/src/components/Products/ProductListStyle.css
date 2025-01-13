@@ -1,0 +1,9 @@
+.product-list {
+    align-items: flex-start;
+    background-color: #f6faff;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px 16px;
+    padding: 16px;
+    position: relative;
+}

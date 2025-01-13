@@ -1,20 +1,45 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import "./ProductItemStyle.css";
 
-const ProductItem = ({ product, onAddToCart }) => {
+const ProductItem = ({ name, price, image, stockQuantity, onAddToCart }) => {
     return (
-        <li>
-            <div className="product-info">
-                <h3>{product.name}</h3>
-                <p>${product.price.toFixed(2)}</p>
+        <div className="product-item">
+            <div className="image-container">
+                <img 
+                    src={image} 
+                    alt={name}
+                    className="product-image"
+                    onError={(e) => {
+                        e.target.onerror = null;
+                        e.target.src = require("../../assets/images/default.jpg");
+                    }}
+                />
             </div>
-            <button
-                className="add-to-cart"
-                onClick={() => onAddToCart(product)}
+            <div className="product-info">
+                <div className="product-name">{name}</div>
+                <div className="product-price">{price}</div>
+            </div>
+            <div className="stock-info">
+                <div className="stock-label">In stock:</div>
+                <div className="stock-value">{stockQuantity}</div>
+            </div>
+            <button 
+                className="add-to-cart-button"
+                onClick={onAddToCart}
             >
                 Add to Cart
             </button>
-        </li>
+        </div>
     );
+};
+
+ProductItem.propTypes = {
+    name: PropTypes.string.isRequired,
+    price: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    stockQuantity: PropTypes.number.isRequired,
+    onAddToCart: PropTypes.func.isRequired
 };
 
 export default ProductItem;
