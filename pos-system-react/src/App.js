@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import ProductItem from "./components/Products/ProductItem";
 import Cart from "./components/Cart/Cart";
 import CheckoutButton from "./components/Checkout/CheckoutButton";
+import Payment from "./components/Payment/Payment";
 import NavBar from "./components/NavBar/NavBar";
 import "./styles.css";
 
 const App = () => {
   const [cart, setCart] = useState([]);
+  const [paidAmount, setPaidAmount] = useState(0);
 
   const products = [
     { 
@@ -79,7 +81,15 @@ const App = () => {
     alert(`Checkout successful! Total: $${calculateTotal().toFixed(2)}`);
     setCart([]); 
   };
-// Start of the UI
+
+  const handlePaidAmountChange = (e) => {
+    setPaidAmount(parseFloat(e.target.value) || 0);
+  };
+
+  const calculateBalance = () => {
+    return paidAmount - calculateTotal();
+  };
+
   return (
     <div className="app">
       <NavBar />
@@ -105,6 +115,12 @@ const App = () => {
             onRemoveFromCart={removeFromCart}
             onAdjustQuantity={adjustQuantity}
             total={calculateTotal()}
+          />
+          <Payment
+            total={calculateTotal()}
+            paidAmount={paidAmount}
+            onPaidAmountChange={handlePaidAmountChange}
+            balance={calculateBalance()}
           />
           <CheckoutButton onCheckout={handleCheckout} />
         </main>
