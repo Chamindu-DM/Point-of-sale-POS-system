@@ -4,11 +4,14 @@ import Cart from "./components/Cart/Cart";
 import CheckoutButton from "./components/Checkout/CheckoutButton";
 import Payment from "./components/Payment/Payment";
 import NavBar from "./components/NavBar/NavBar";
+import SalesHistory from './components/Sales/SalesHistory';
 import "./styles.css";
 
 const App = () => {
   const [cart, setCart] = useState([]);
   const [paidAmount, setPaidAmount] = useState(0);
+  const [salesHistory, setSalesHistory] = useState([]);
+  const [currentInvoiceNumber, setCurrentInvoiceNumber] = useState(1);
 
   const products = [
     { 
@@ -78,8 +81,20 @@ const App = () => {
       alert("Your cart is empty.");
       return;
     }
-    alert(`Checkout successful! Total: $${calculateTotal().toFixed(2)}`);
-    setCart([]); 
+    
+    const sale = {
+      invoiceNumber: currentInvoiceNumber,
+      date: new Date().toISOString(),
+      items: [...cart],
+      total: calculateTotal(),
+      paidAmount: paidAmount,
+      balance: paidAmount - calculateTotal()
+    };
+
+    setSalesHistory([...salesHistory, sale]);
+    setCurrentInvoiceNumber(prev => prev + 1);
+    setCart([]);
+    setPaidAmount(0);
   };
 
   const handlePaidAmountChange = (e) => {
@@ -123,6 +138,7 @@ const App = () => {
             balance={calculateBalance()}
           />
           <CheckoutButton onCheckout={handleCheckout} />
+          <SalesHistory sales={salesHistory} />
         </main>
       </div>
     </div>
