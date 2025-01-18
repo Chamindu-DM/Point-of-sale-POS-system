@@ -6,6 +6,7 @@ import Payment from "./components/Payment/Payment";
 import NavBar from "./components/NavBar/NavBar";
 import SalesHistory from './components/Sales/SalesHistory';
 import "./styles.css";
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const App = () => {
   const [cart, setCart] = useState([]);
@@ -106,42 +107,29 @@ const App = () => {
   };
 
   return (
-    <div className="app">
-      <NavBar />
-      <div className="pos-container">
-        <header>
-          <h1>POS System</h1>
-        </header>
-        <main>
-          <div className="product-grid">
-            {products.map((product) => (
-              <ProductItem
-                key={product.id}
-                image={product.image}
-                name={product.name}
-                price={`LKR ${product.price}`}
-                stockQuantity={product.stockQuantity}
-                onAddToCart={() => addToCart(product)}
-              />
-            ))}
-          </div>
-          <Cart 
-            cart={cart}
-            onRemoveFromCart={removeFromCart}
-            onAdjustQuantity={adjustQuantity}
-            total={calculateTotal()}
-          />
-          <Payment
-            total={calculateTotal()}
-            paidAmount={paidAmount}
-            onPaidAmountChange={handlePaidAmountChange}
-            balance={calculateBalance()}
-          />
-          <CheckoutButton onCheckout={handleCheckout} />
-          <SalesHistory sales={salesHistory} />
-        </main>
+    <Router>
+      <div className="app">
+        <NavBar />
+        <Routes>
+          <Route path="/" element={
+            <div className="pos-container">
+              <header><h1>POS System</h1></header>
+              <main>
+                <div className="product-grid">
+                  {products.map((product) => (
+                    <ProductItem {...product} onAddToCart={() => addToCart(product)} />
+                  ))}
+                </div>
+                <Cart cart={cart} onRemoveFromCart={removeFromCart} onAdjustQuantity={adjustQuantity} />
+                <Payment total={calculateTotal()} paidAmount={paidAmount} onPaidAmountChange={handlePaidAmountChange} />
+                <CheckoutButton onCheckout={handleCheckout} />
+              </main>
+            </div>
+          } />
+          <Route path="/sales" element={<SalesHistory sales={salesHistory} />} />
+        </Routes>
       </div>
-    </div>
+    </Router>
   );
 };
 
