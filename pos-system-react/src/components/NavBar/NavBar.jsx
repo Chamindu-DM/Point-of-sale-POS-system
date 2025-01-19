@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
+import LogoImage from '../../assets/images/Cheese Bakes logo.svg';
 
 const NavBar = () => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -10,7 +11,7 @@ const NavBar = () => {
     <nav className="navbar">
       <div className="nav-left">
         <Link to="/" className="nav-brand">
-          <img src="/logo.png" alt="POS Logo" className="nav-logo" />
+          <img src={LogoImage} alt="Cheese Bakes Logo" className="nav-logo" />
           <span>POS System</span>
         </Link>
       </div>

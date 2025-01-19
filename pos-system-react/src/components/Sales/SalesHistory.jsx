@@ -10,7 +10,7 @@ const SalesHistory = ({ sales }) => {
         <thead>
           <tr>
             <th>Invoice #</th>
-            <th>Date</th>
+            <th>Date & Time</th>
             <th>Items</th>
             <th>Quantity</th>
             <th>Total (LKR)</th>

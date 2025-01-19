@@ -5,6 +5,8 @@ import CheckoutButton from "./components/Checkout/CheckoutButton";
 import Payment from "./components/Payment/Payment";
 import NavBar from "./components/NavBar/NavBar";
 import SalesHistory from './components/Sales/SalesHistory';
+import SidePanel from "./components/SidePanel/SidePanel"; 
+import AddProduct from './components/Products/AddProduct';
 import "./styles.css";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -13,6 +15,7 @@ const App = () => {
   const [paidAmount, setPaidAmount] = useState(0);
   const [salesHistory, setSalesHistory] = useState([]);
   const [currentInvoiceNumber, setCurrentInvoiceNumber] = useState(1);
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const products = [
     { 
@@ -110,33 +113,37 @@ const App = () => {
     <Router>
       <div className="app">
         <NavBar />
-        <Routes>
-          <Route path="/" element={
-            <div className="pos-container">
-              <header><h1>POS System</h1></header>
-              <main>
-                <div className="product-grid">
-                  {products.map((product) => (
-                    <ProductItem key={product.id} {...product} onAddToCart={() => addToCart(product)} />
-                  ))}
-                </div>
-                <Cart 
-                  cart={cart} 
-                  onRemoveFromCart={removeFromCart} 
-                  onAdjustQuantity={adjustQuantity}
-                  total={calculateTotal()}
-                />
-                <Payment 
-                  total={calculateTotal()} 
-                  paidAmount={paidAmount} 
-                  onPaidAmountChange={handlePaidAmountChange} 
-                />
-                <CheckoutButton onCheckout={handleCheckout} />
-              </main>
-            </div>
-          } />
-          <Route path="/sales" element={<SalesHistory sales={salesHistory} />} />
-        </Routes>
+        <SidePanel />
+        <div className="main-content">
+          <Routes>
+            <Route path="/" element={
+              <div className="pos-container">
+                <header><h1>POS System</h1></header>
+                <main>
+                  <div className="product-grid">
+                    {products.map((product) => (
+                      <ProductItem key={product.id} {...product} onAddToCart={() => addToCart(product)} />
+                    ))}
+                  </div>
+                  <Cart 
+                    cart={cart} 
+                    onRemoveFromCart={removeFromCart} 
+                    onAdjustQuantity={adjustQuantity}
+                    total={calculateTotal()}
+                  />
+                  <Payment 
+                    total={calculateTotal()} 
+                    paidAmount={paidAmount} 
+                    onPaidAmountChange={handlePaidAmountChange} 
+                  />
+                  <CheckoutButton onCheckout={handleCheckout} />
+                </main>
+              </div>
+            } />
+            <Route path="/sales" element={<SalesHistory sales={salesHistory} />} />
+            <Route path="/products/add" element={<AddProduct />} />
+          </Routes>
+        </div>
       </div>
     </Router>
   );
