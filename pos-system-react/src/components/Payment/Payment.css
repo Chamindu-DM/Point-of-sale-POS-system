@@ -13,6 +13,11 @@
   margin-bottom: 15px;
 }
 
+.iput-field{
+    height: 32px;
+    border-radius: 4px;
+}
+
 .payment-summary {
   font-size: 18px;
   font-weight: 500;
@@ -20,7 +25,7 @@
 
 .balance {
   margin-top: 10px;
-  padding: 8px;
+  padding: 8px 0px;
   border-radius: 4px;
 }
 

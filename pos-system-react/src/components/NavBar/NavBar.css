@@ -1,36 +1,120 @@
 .navbar {
-  background-color: #333;
-  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  padding: 0.8rem 2rem;
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
+
+.nav-left,
+.nav-center,
+.nav-right {
+  display: flex;
   align-items: center;
 }
 
 .nav-brand {
-  color: white;
-  font-size: 1.5rem;
-  font-weight: bold;
-}
-
-.nav-links {
-  list-style: none;
   display: flex;
-  gap: 2rem;
-  margin: 0;
-  padding: 0;
-}
-
-.nav-links a {
-  color: white;
+  align-items: center;
   text-decoration: none;
-  padding: 0.5rem 1rem;
+  color: #333;
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+
+.nav-logo {
+  height: 32px;
+  margin-right: 0.8rem;
+}
+
+.search-container {
+  position: relative;
+  width: 400px;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 0.6rem 1rem;
+  border: 1px solid #ddd;
   border-radius: 4px;
+  font-size: 0.9rem;
 }
 
-.nav-links a:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+.search-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
 }
 
-.nav-links a.active {
-  background-color: rgba(255, 255, 255, 0.2);
+.nav-icon {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: #666;
+  cursor: pointer;
+  margin: 0 1rem;
+  position: relative;
+}
+
+.notification-badge {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  background: #ff4757;
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 5px;
+  border-radius: 50%;
+}
+
+.profile-container {
+  position: relative;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 120%;
+  right: 0;
+  background: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+  min-width: 160px;
+}
+
+.profile-dropdown a,
+.profile-dropdown button {
+  display: block;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  color: #333;
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.profile-dropdown a:hover,
+.profile-dropdown button:hover {
+  background: #f8f9fa;
+}
+
+.profile-dropdown hr {
+  margin: 0.5rem 0;
+  border: none;
+  border-top: 1px solid #eee;
+}
+
+.logout-btn {
+  color: #dc3545;
 }

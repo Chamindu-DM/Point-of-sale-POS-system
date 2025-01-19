@@ -10,7 +10,7 @@ const Payment = ({ total, paidAmount, onPaidAmountChange }) => {
     <div className="payment-section">
       <div className="payment-input">
         <label htmlFor="paid-amount">Amount Paid (LKR):</label>
-        <input
+        <input className='iput-field'
           type="number"
           id="paid-amount"
           value={paidAmount || ''}

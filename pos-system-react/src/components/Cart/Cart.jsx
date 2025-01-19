@@ -2,6 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Cart = ({ cart = [], onRemoveFromCart, onAdjustQuantity, total = 0 }) => {
+  const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+
   return (
     <div className="cart">
       <table className="cart-table">
@@ -35,14 +37,20 @@ const Cart = ({ cart = [], onRemoveFromCart, onAdjustQuantity, total = 0 }) => {
         </tbody>
       </table>
       <div className="cart-total">
-        <strong>Total:</strong> Ru. {total.toFixed(2)}
+        <strong>Total:</strong> Ru. {cartTotal.toFixed(2)}
       </div>
     </div>
   );
 };
 
 Cart.propTypes = {
-  cart: PropTypes.array,
+  cart: PropTypes.arrayOf(
+    PropTypes.shape({
+      name: PropTypes.string.isRequired,
+      price: PropTypes.number.isRequired,
+      quantity: PropTypes.number.isRequired
+    })
+  ),
   onRemoveFromCart: PropTypes.func.isRequired,
   onAdjustQuantity: PropTypes.func.isRequired,
   total: PropTypes.number

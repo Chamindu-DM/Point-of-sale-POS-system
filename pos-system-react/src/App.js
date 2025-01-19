@@ -74,7 +74,7 @@ const App = () => {
   };
 
   const calculateTotal = () => {
-    return cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    return cart.reduce((total, item) => total + (item.price * item.quantity), 0);
   };
 
   const handleCheckout = () => {
@@ -117,11 +117,20 @@ const App = () => {
               <main>
                 <div className="product-grid">
                   {products.map((product) => (
-                    <ProductItem {...product} onAddToCart={() => addToCart(product)} />
+                    <ProductItem key={product.id} {...product} onAddToCart={() => addToCart(product)} />
                   ))}
                 </div>
-                <Cart cart={cart} onRemoveFromCart={removeFromCart} onAdjustQuantity={adjustQuantity} />
-                <Payment total={calculateTotal()} paidAmount={paidAmount} onPaidAmountChange={handlePaidAmountChange} />
+                <Cart 
+                  cart={cart} 
+                  onRemoveFromCart={removeFromCart} 
+                  onAdjustQuantity={adjustQuantity}
+                  total={calculateTotal()}
+                />
+                <Payment 
+                  total={calculateTotal()} 
+                  paidAmount={paidAmount} 
+                  onPaidAmountChange={handlePaidAmountChange} 
+                />
                 <CheckoutButton onCheckout={handleCheckout} />
               </main>
             </div>
