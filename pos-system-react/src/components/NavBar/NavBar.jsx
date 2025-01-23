@@ -12,7 +12,6 @@ const NavBar = () => {
       <div className="nav-left">
         <Link to="/" className="nav-brand">
           <img src={LogoImage} alt="Cheese Bakes Logo" className="nav-logo" />
-          <span>POS System</span>
         </Link>
       </div>
 

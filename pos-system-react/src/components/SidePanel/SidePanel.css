@@ -1,6 +1,7 @@
 .side-panel {
+    padding-top: 64px;
     width: 250px;
-    height: 100vh;
+    height: 93vh;
     background: #f8f9fa;
     border-right: 1px solid #dee2e6;
     position: fixed;
@@ -93,6 +94,10 @@
     align-items: center;
 }
 
+.logout-btn:hover {
+    background: rgba(255, 0, 0, 0.1);
+}
+
 .logout-btn i {
     width: 20px;
     margin-right: 10px;
@@ -101,16 +106,36 @@
 .collapse-btn {
     position: absolute;
     right: -12px;
-    top: 50%;
+    top: 97px;
     transform: translateY(-50%);
     width: 24px;
     height: 24px;
-    border-radius: 50%;
+    border-radius: 4px;
     border: 1px solid #dee2e6;
     background: #fff;
     cursor: pointer;
-    display: flex;
     align-items: center;
     justify-content: center;
     color: #6c757d;
+    background-image: url('../../assets/icons/collapseBtn.svg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    padding: 8px;
+}
+
+.collapse-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+.card {
+    transition: width 0.3s ease-in-out;
+}
+
+.list-item {
+    cursor: pointer;
+}
+
+.list-item:hover {
+    background-color: #f8fafc;
 }

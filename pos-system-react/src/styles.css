@@ -20,7 +20,7 @@ body {
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-left: 250px; /* Add margin to account for SidePanel width */
+    margin-left: 270px; /* Add margin to account for SidePanel width */
     margin-top: 20px;
     transition: margin-left 0.3s; /* Smooth transition for panel collapse */
 }

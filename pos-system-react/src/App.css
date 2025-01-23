@@ -1,5 +1,9 @@
 .App {
   text-align: center;
+  display: flex;
+    align-items: center;
+    flex: 1 0 0;
+    align-self: stretch;
 }
 
 .App-logo {
@@ -36,3 +40,4 @@
     transform: rotate(360deg);
   }
 }
+

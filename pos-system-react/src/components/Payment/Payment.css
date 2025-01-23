@@ -16,6 +16,7 @@
 .iput-field{
     height: 32px;
     border-radius: 4px;
+    border-color: rgb(0, 0, 0,0.2);
 }
 
 .payment-summary {

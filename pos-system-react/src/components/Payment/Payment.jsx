@@ -16,7 +16,7 @@ const Payment = ({ total, paidAmount, onPaidAmountChange }) => {
           value={paidAmount || ''}
           onChange={onPaidAmountChange}
           min="0"
-          step="0.01"
+          step="1"
         />
       </div>
       <div className="payment-summary">
