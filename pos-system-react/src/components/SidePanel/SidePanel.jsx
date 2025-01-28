@@ -21,7 +21,6 @@ const SidePanel = () => {
         {
             title: 'Products',
             icon: 'fas fa-box',
-            path: '/products',
             submenu: [
                 { title: 'View Products', path: '/products' },
                 { title: 'Add Product', path: '/products/add' },
@@ -40,6 +39,10 @@ const SidePanel = () => {
         }
     ];
 
+    const handleSubmenuToggle = (itemTitle) => {
+        setActiveSubmenu(activeSubmenu === itemTitle ? '' : itemTitle);
+    };
+
     return (
         <div className={`side-panel ${isCollapsed ? 'collapsed' : ''}`}>
             <div className="branch-selector">
@@ -56,11 +59,28 @@ const SidePanel = () => {
                         <Link
                             to={item.path}
                             className={`nav-item ${location.pathname === item.path ? 'active' : ''}`}
-                            onClick={() => item.submenu && setActiveSubmenu(activeSubmenu === item.title ? '' : item.title)}
+                            onClick={() => item.submenu && handleSubmenuToggle(item.title)}
                         >
                             <i className={item.icon}></i>
                             <span>{item.title}</span>
-                            {item.submenu && <i className={`fas fa-chevron-${activeSubmenu === item.title ? 'up' : 'down'}`}></i>}
+                            {item.submenu && (
+                                <svg
+                                    className={`chevron-icon ${activeSubmenu === item.title ? 'rotate' : ''}`}
+                                    width="20"
+                                    height="20"
+                                    viewBox="0 0 24 24"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <path
+                                        d="M6 9L12 15L18 9"
+                                        stroke="currentColor"
+                                        strokeWidth="2"
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                    />
+                                </svg>
+                            )}
                         </Link>
                         {item.submenu && activeSubmenu === item.title && (
                             <div className="submenu">
@@ -72,6 +92,7 @@ const SidePanel = () => {
                                     >
                                         {subitem.title}
                                     </Link>
+                                    
                                 ))}
                             </div>
                         )}
