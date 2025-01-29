@@ -7,22 +7,28 @@ const AddProduct = () => {
         price: '',
         category: '',
         quantity: '',
-        description: '',
-        image: null
+        description: ''
     });
 
     const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setProduct(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setProduct({ ...product, [e.target.name]: e.target.value });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // TODO: Add API call to save product
-        console.log('Product to save:', product);
+        try {
+            const response = await fetch('http://localhost:5000/api/products', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(product)
+            });
+            const data = await response.json();
+            console.log('Product created:', data);
+        } catch (error) {
+            console.error('Error adding product:', error);
+        }
     };
 
     return (
