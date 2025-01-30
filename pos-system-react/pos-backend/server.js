@@ -9,9 +9,18 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB connection
-mongoose.connect('mongodb://127.0.0.1:27017/pos_system')
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('MongoDB connection error:', err));
+mongoose.connect('mongodb://127.0.0.1:27017/pos_system', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true
+});
+
+mongoose.connection.on('connected', () => {
+  console.log('MongoDB connected successfully');
+});
+
+mongoose.connection.on('error', (err) => {
+  console.error('MongoDB connection error:', err);
+});
 
 // Configure multer for file uploads
 const storage = multer.diskStorage({
@@ -56,8 +65,10 @@ app.post('/api/products', upload.single('image'), async (req, res) => {
 app.get('/api/products', async (req, res) => {
   try {
     const products = await Product.find({});
+    console.log('Products fetched:', products); // Debug log
     res.json(products);
   } catch (err) {
+    console.error('Error fetching products:', err);
     res.status(500).json({ message: err.message });
   }
 });
