@@ -9,31 +9,63 @@ const AddProduct = () => {
         quantity: '',
         description: ''
     });
+    const [image, setImage] = useState(null);
+    const [message, setMessage] = useState({ type: '', text: '' });
 
     const handleInputChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
     };
 
+    const handleImageChange = (e) => {
+        setImage(e.target.files[0]);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            const formData = new FormData();
+            // Append product data
+            Object.keys(product).forEach(key => {
+                formData.append(key, product[key]);
+            });
+            // Append image file
+            if (image) {
+                formData.append('image', image);
+            }
+
             const response = await fetch('http://localhost:5000/api/products', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(product)
+                body: formData // Don't set Content-Type header, let browser handle it
             });
             const data = await response.json();
-            console.log('Product created:', data);
+            
+            if (data.success) {
+                setMessage({ type: 'success', text: 'Product added successfully!' });
+                // Reset form
+                setProduct({
+                    name: '',
+                    price: '',
+                    category: '',
+                    quantity: '',
+                    description: ''
+                });
+                setImage(null);
+            } else {
+                setMessage({ type: 'error', text: 'Failed to add product' });
+            }
         } catch (error) {
-            console.error('Error adding product:', error);
+            setMessage({ type: 'error', text: 'Error adding product' });
         }
     };
 
     return (
         <div className="add-product-container">
             <h2>Add New Product</h2>
+            {message.text && (
+                <div className={`alert ${message.type}`}>
+                    {message.text}
+                </div>
+            )}
             <form onSubmit={handleSubmit}>
                 <div className="form-group">
                     <label htmlFor="name">Product Name</label>
@@ -44,6 +76,17 @@ const AddProduct = () => {
                         value={product.name}
                         onChange={handleInputChange}
                         required
+                    />
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="image">Product Image</label>
+                    <input
+                        type="file"
+                        id="image"
+                        name="image"
+                        accept="image/*"
+                        onChange={handleImageChange}
                     />
                 </div>
 

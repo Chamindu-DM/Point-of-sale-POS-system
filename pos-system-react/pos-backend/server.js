@@ -1,36 +1,64 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const multer = require('multer');
+const path = require('path');
 
 const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Connect to MongoDB (optional)
-mongoose.connect('mongodb://127.0.0.1:27017/pos_system', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
+// MongoDB connection
+mongoose.connect('mongodb://127.0.0.1:27017/pos_system')
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
+// Configure multer for file uploads
+const storage = multer.diskStorage({
+  destination: './uploads/',
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  }
 });
 
-// Product schema
+const upload = multer({ storage: storage });
+
+// Serve uploaded files statically
+app.use('/uploads', express.static('uploads'));
+
+// Product Schema
 const productSchema = new mongoose.Schema({
   name: String,
-  category: String,
   price: Number,
+  category: String,
   quantity: Number,
   description: String,
+  imageUrl: String
 });
 
 const Product = mongoose.model('Product', productSchema);
 
-// POST: create new product
-app.post('/api/products', async (req, res) => {
+// Routes
+app.post('/api/products', upload.single('image'), async (req, res) => {
   try {
-    const newProduct = new Product(req.body);
+    const imageUrl = req.file ? `/uploads/${req.file.filename}` : '';
+    const newProduct = new Product({
+      ...req.body,
+      imageUrl: imageUrl
+    });
     await newProduct.save();
-    res.json(newProduct);
+    res.json({ success: true, product: newProduct });
   } catch (err) {
-    res.status(500).json({ error: 'Failed to add product' });
+    res.status(500).json({ success: false, error: 'Failed to add product' });
+  }
+});
+
+app.get('/api/products', async (req, res) => {
+  try {
+    const products = await Product.find({});
+    res.json(products);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 });
 
