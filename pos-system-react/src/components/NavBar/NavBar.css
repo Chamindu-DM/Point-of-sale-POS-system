@@ -4,7 +4,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.8rem 2rem;
+  padding: 16px 20px;
   background: #ffffff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   z-index: 1000;
@@ -34,25 +34,42 @@
 .search-container {
   position: relative;
   width: 400px;
+  height: 40px;
+  display: flex;
+  align-items: center;
 }
 
 .search-container input {
   width: 100%;
-  padding: 0.6rem 1rem;
+  height: 100%;
+  padding: 0px 16px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 0.9rem;
+  border-radius: 8px;
+  font-size: 16px;
 }
 
 .search-btn {
-  position: absolute;
-  right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
+  height: 44px;
+  border-radius: 0px 8px 8px 0px;
+  border-left: 1px solid #ddd;
+  padding-left: 8px;
+  padding-right: 16px;
+  border: #ddd;
   background: none;
-  border: none;
-  color: #666;
-  cursor: pointer;
+  position: absolute;
+  right: 0%;
+}
+
+.nav-icon svg {
+  width: 24px;
+  height: 24px;
+  fill: currentColor;
+}
+
+.nav-icons {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .nav-icon {
@@ -61,8 +78,11 @@
   font-size: 1.2rem;
   color: #666;
   cursor: pointer;
-  margin: 0 1rem;
   position: relative;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  border-radius: 8px;
 }
 
 .notification-badge {
@@ -76,14 +96,10 @@
   border-radius: 50%;
 }
 
-.profile-container {
-  position: relative;
-}
-
 .profile-dropdown {
   position: absolute;
-  top: 120%;
-  right: 0;
+  top: 80%;
+  right: 1%;
   background: white;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);

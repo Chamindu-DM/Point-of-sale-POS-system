@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const multer = require('multer');
 const path = require('path');
+const Sale = require('./models/Sale');
 
 const app = express();
 app.use(cors());
@@ -81,6 +82,38 @@ app.get('/api/orders', (req, res) => {
 // Sales
 app.get('/api/sales', (req, res) => {
     res.json([{ saleId: 101, total: 1000 }]);
+});
+
+// Get all sales
+app.get('/api/sales', async (req, res) => {
+  try {
+    const sales = await Sale.find({}).sort({ date: -1 });
+    const totalSales = await Sale.aggregate([
+      {
+        $group: {
+          _id: null,
+          total: { $sum: "$total" }
+        }
+      }
+    ]);
+    res.json({
+      sales: sales,
+      totalAmount: totalSales[0]?.total || 0
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+// Add new sale
+app.post('/api/sales', async (req, res) => {
+  try {
+    const newSale = new Sale(req.body);
+    const savedSale = await newSale.save();
+    res.status(201).json(savedSale);
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
 });
 
 // Start server

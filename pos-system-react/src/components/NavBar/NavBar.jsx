@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './NavBar.css';
 import LogoImage from '../../assets/images/Cheese Bakes logo.svg';
+import { ReactComponent as BellIcon } from '../../assets/icons/BellRinging.svg';
+import { ReactComponent as SearchIcon } from '../../assets/icons/MagnifyingGlass.svg';
+import { ReactComponent as UserIcon } from '../../assets/icons/UserCircle.svg';
 
 const NavBar = () => {
   const [showProfileMenu, setShowProfileMenu] = useState(false);
@@ -24,22 +27,21 @@ const NavBar = () => {
             onChange={(e) => setSearchQuery(e.target.value)}
           />
           <button className="search-btn">
-            <i className="fas fa-search"></i>
+            <SearchIcon />
           </button>
         </div>
       </div>
 
       <div className="nav-right">
-        <button className="nav-icon notification-btn">
-          <i className="fas fa-bell"></i>
-          <span className="notification-badge">3</span>
-        </button>
-
-        <div className="profile-container">
-          <button
-            className="profile-btn"
+        <div className="nav-icons">
+          <button className="nav-icon">
+            <BellIcon />
+            <span className="notification-badge">3</span>
+          </button>
+          <button className="nav-icon"
             onClick={() => setShowProfileMenu(!showProfileMenu)}
           >
+            <UserIcon />
             <i className="fas fa-user"></i>
           </button>
           {showProfileMenu && (

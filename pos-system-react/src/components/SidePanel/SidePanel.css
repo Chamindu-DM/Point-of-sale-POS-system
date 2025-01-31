@@ -2,7 +2,7 @@
     padding-top: 64px;
     width: 250px;
     height: 93vh;
-    background: #f8f9fa;
+    background: white;
     border-right: 1px solid #dee2e6;
     position: fixed;
     left: 0;
@@ -10,6 +10,7 @@
     transition: width 0.3s;
     display: flex;
     flex-direction: column;
+
 }
 
 .side-panel.collapsed {
@@ -41,15 +42,21 @@
     color: #6c757d;
     text-decoration: none;
     transition: background-color 0.2s;
+    font-family: "Inter Tight", Helvetica;
+    letter-spacing: 0.4px;
+    font-size: 16px;
+    font-weight: 400;
 }
 
 .nav-item:hover {
     background: rgba(0, 0, 0, 0.05);
+    font-weight: 400;
 }
 
 .nav-item.active {
     color: #007bff;
     background: rgba(0, 123, 255, 0.1);
+    font-weight: 600;
 }
 
 .nav-item i {
@@ -67,15 +74,21 @@
     padding: 0.5rem 1rem 0.5rem 3rem;
     color: #666;
     text-decoration: none;
+    font-family: "Inter Tight", Helvetica;
+    letter-spacing: 0.4px;
+    font-size: 15px;
+    font-weight: 400;
 }
 
 .submenu-item:hover {
     background: rgba(0, 0, 0, 0.05);
+    font-weight: 500;
 }
 
 .submenu-item.active {
     color: #007bff;
     background: rgba(0, 123, 255, 0.1);
+    font-weight: 500;
 }
 
 .bottom-nav {
@@ -93,10 +106,14 @@
     text-align: left;
     display: flex;
     align-items: center;
-}
+    font-family: "Inter Tight", Helvetica;
+    letter-spacing: 0.4px;
+    font-size: 16px;
+    font-weight: 400;}
 
 .logout-btn:hover {
     background: rgba(255, 0, 0, 0.1);
+    font-weight: 500;
 }
 
 .logout-btn i {

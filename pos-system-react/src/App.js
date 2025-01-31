@@ -118,7 +118,6 @@ const App = () => {
           <Routes>
             <Route path="/" element={
               <div className="pos-container">
-                <header><h1>POS System</h1></header>
                 <main>
                   <div className="product-grid">
                     {products.map((product) => (

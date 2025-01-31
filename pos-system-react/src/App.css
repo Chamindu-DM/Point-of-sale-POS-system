@@ -1,9 +1,22 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Inter Tight-Medium", Helvetica;
+  font-size: 16px;
+}
+
 .App {
   text-align: center;
   display: flex;
-    align-items: center;
-    flex: 1 0 0;
-    align-self: stretch;
+  align-items: center;
+  flex: 1 0 0;
+  align-self: stretch;
+  font-family: "Inter Tight-Medium", Helvetica;
+  font-size: 16px;
 }
 
 .App-logo {
