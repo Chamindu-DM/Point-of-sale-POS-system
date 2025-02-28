@@ -74,6 +74,51 @@ app.get('/api/products', async (req, res) => {
   }
 });
 
+// Update the delete endpoint
+app.delete('/api/products/:id', async (req, res) => {
+    try {
+        console.log('Attempting to delete product with ID:', req.params.id); // Debug log
+        
+        const result = await Product.findByIdAndDelete(req.params.id);
+        
+        if (!result) {
+            console.log('Product not found'); // Debug log
+            return res.status(404).json({ success: false, message: 'Product not found' });
+        }
+        
+        console.log('Product deleted successfully:', result); // Debug log
+        res.status(200).json({ success: true, message: 'Product deleted successfully' });
+    } catch (err) {
+        console.error('Delete error:', err);
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
+// Add an update endpoint for editing products
+app.put('/api/products/:id', upload.single('image'), async (req, res) => {
+    try {
+        const updateData = { ...req.body };
+        if (req.file) {
+            updateData.imageUrl = `/uploads/${req.file.filename}`;
+        }
+
+        const updatedProduct = await Product.findByIdAndUpdate(
+            req.params.id,
+            updateData,
+            { new: true }
+        );
+
+        if (!updatedProduct) {
+            return res.status(404).json({ success: false, message: 'Product not found' });
+        }
+
+        res.json({ success: true, product: updatedProduct });
+    } catch (err) {
+        console.error('Update error:', err);
+        res.status(500).json({ success: false, message: err.message });
+    }
+});
+
 // Orders
 app.get('/api/orders', (req, res) => {
     res.json([{ id: 1, items: [] }]);

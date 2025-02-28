@@ -7,6 +7,7 @@ import NavBar from "./components/NavBar/NavBar";
 import SalesHistory from './components/Sales/SalesHistory';
 import SidePanel from "./components/SidePanel/SidePanel"; 
 import AddProduct from './components/Products/AddProduct';
+import ViewProducts from './components/Products/ViewProducts';
 import "./styles.css";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -141,6 +142,7 @@ const App = () => {
             } />
             <Route path="/sales" element={<SalesHistory sales={salesHistory} />} />
             <Route path="/products/add" element={<AddProduct />} />
+            <Route path="/products" element={<ViewProducts />} />
           </Routes>
         </div>
       </div>
