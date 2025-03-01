@@ -125,40 +125,115 @@ app.get('/api/orders', (req, res) => {
 });
 
 // Sales
-app.get('/api/sales', (req, res) => {
-    res.json([{ saleId: 101, total: 1000 }]);
-});
-
-// Get all sales
 app.get('/api/sales', async (req, res) => {
-  try {
-    const sales = await Sale.find({}).sort({ date: -1 });
-    const totalSales = await Sale.aggregate([
-      {
-        $group: {
-          _id: null,
-          total: { $sum: "$total" }
+    try {
+        const { startDate, endDate, page = 1, limit = 10 } = req.query;
+        let query = {};
+
+        if (startDate && endDate) {
+            query.date = {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate)
+            };
         }
-      }
-    ]);
-    res.json({
-      sales: sales,
-      totalAmount: totalSales[0]?.total || 0
-    });
-  } catch (err) {
-    res.status(500).json({ message: err.message });
-  }
+
+        const sales = await Sale.find(query)
+            .sort({ date: -1 })
+            .skip((page - 1) * limit)
+            .limit(limit);
+
+        const total = await Sale.countDocuments(query);
+
+        const summary = await Sale.aggregate([
+            { $match: query },
+            {
+                $group: {
+                    _id: null,
+                    totalSales: { $sum: "$total" },
+                    totalTransactions: { $sum: 1 }
+                }
+            }
+        ]);
+
+        res.json({
+            sales,
+            totalPages: Math.ceil(total / limit),
+            currentPage: page,
+            summary: summary[0] || { totalSales: 0, totalTransactions: 0 }
+        });
+    } catch (err) {
+        console.error('Error fetching sales:', err);
+        res.status(500).json({ message: err.message });
+    }
 });
 
 // Add new sale
 app.post('/api/sales', async (req, res) => {
-  try {
-    const newSale = new Sale(req.body);
-    const savedSale = await newSale.save();
-    res.status(201).json(savedSale);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
+    try {
+        // Get the last invoice number
+        const lastSale = await Sale.findOne().sort({ invoiceNumber: -1 });
+        const invoiceNumber = lastSale ? lastSale.invoiceNumber + 1 : 1000;
+
+        const newSale = new Sale({
+            ...req.body,
+            invoiceNumber,
+            date: new Date()
+        });
+
+        const savedSale = await newSale.save();
+        res.status(201).json(savedSale);
+    } catch (err) {
+        console.error('Error creating sale:', err);
+        res.status(400).json({ message: err.message });
+    }
+});
+
+// Get sale by invoice number
+app.get('/api/sales/:invoiceNumber', async (req, res) => {
+    try {
+        const sale = await Sale.findOne({ invoiceNumber: req.params.invoiceNumber });
+        if (!sale) {
+            return res.status(404).json({ message: 'Sale not found' });
+        }
+        res.json(sale);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+});
+
+// Get sales summary
+app.get('/api/sales/summary', async (req, res) => {
+    try {
+        const { startDate, endDate } = req.query;
+        let query = {};
+
+        if (startDate && endDate) {
+            query.date = {
+                $gte: new Date(startDate),
+                $lte: new Date(endDate)
+            };
+        }
+
+        const summary = await Sale.aggregate([
+            { $match: query },
+            {
+                $group: {
+                    _id: null,
+                    totalSales: { $sum: "$total" },
+                    totalTransactions: { $sum: 1 },
+                    averageTransaction: { $avg: "$total" }
+                }
+            }
+        ]);
+
+        res.json(summary[0] || {
+            totalSales: 0,
+            totalTransactions: 0,
+            averageTransaction: 0
+        });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
 });
 
 // Start server

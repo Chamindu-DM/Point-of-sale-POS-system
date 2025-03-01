@@ -1,0 +1,202 @@
+﻿<Window x:Class="CheeseBakesPOS.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CheeseBakesPOS"
+        mc:Ignorable="d"
+        Title="Cheese Bakes POS System" Height="800" Width="1200">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="220"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Left Sidebar -->
+        <Border Grid.Column="0" Background="#F5F5F5">
+            <StackPanel>
+                <!-- Logo -->
+                <StackPanel Orientation="Horizontal" Margin="10">
+                    <TextBlock Text="Cheese" FontWeight="Bold" FontSize="18" Foreground="#333333"/>
+                    <TextBlock Text="Bakes" FontSize="18" Foreground="#333333"/>
+                </StackPanel>
+
+                <!-- Sidebar Menu Items -->
+                <ComboBox Margin="10,20,10,5" SelectedIndex="0">
+                    <ComboBoxItem Content="Main Branch"/>
+                </ComboBox>
+
+                <Border Margin="0,20,0,0" Background="#ECF4FF" BorderThickness="5,0,0,0" BorderBrush="#3E91FF">
+                    <TextBlock Text="Dashboard" Padding="20,10" FontWeight="Normal" Foreground="#3E91FF"/>
+                </Border>
+
+                <TextBlock Text="Sales" Padding="20,10" Foreground="#888888"/>
+
+                <Grid>
+                    <TextBlock Text="Products" Padding="20,10" Foreground="#888888"/>
+                    <TextBlock Text="▾" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Foreground="#888888"/>
+                </Grid>
+
+                <StackPanel Margin="20,0,0,0">
+                    <TextBlock Text="View Products" Padding="15,8" Foreground="#888888"/>
+                    <TextBlock Text="Add Product" Padding="15,8" Foreground="#888888"/>
+                    <TextBlock Text="Inventory" Padding="15,8" Foreground="#888888"/>
+                </StackPanel>
+
+                <TextBlock Text="Orders" Padding="20,10" Foreground="#888888"/>
+                <TextBlock Text="Reports" Padding="20,10" Foreground="#888888"/>
+
+                <TextBlock Text="Settings" Padding="20,10" Foreground="#888888" Margin="0,280,0,0"/>
+                <TextBlock Text="Logout" Padding="20,10" Foreground="#E74C3C"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Main Content Area -->
+        <Border Grid.Column="1" Background="#F9F9F9" Padding="20">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <!-- Search Bar and Notifications -->
+                <Grid Grid.Row="0">
+                    <Border Background="White" CornerRadius="5" BorderThickness="1" BorderBrush="#E5E5E5" Padding="10" Width="400" HorizontalAlignment="Left">
+                        <Grid>
+                            <TextBox BorderThickness="0" Padding="5,2" FontSize="14" Foreground="#999999" Text="Search products..."/>
+                            <Button Content="🔍" HorizontalAlignment="Right" Background="Transparent" BorderThickness="0"/>
+                        </Grid>
+                    </Border>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="🔔" FontSize="16" Background="Transparent" BorderThickness="0" Margin="5,0"/>
+                        <Button Content="👤" FontSize="16" Background="Transparent" BorderThickness="0" Margin="5,0"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Main Content with Products and Cart -->
+                <Grid Grid.Row="1" Margin="0,20,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Products Section -->
+                    <Border Grid.Row="0" Background="White" CornerRadius="10" Padding="20" Margin="0,0,0,20">
+                        <StackPanel>
+                            <ItemsControl ItemsSource="{Binding Products}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Width="250" Height="300" Margin="10" Background="White" CornerRadius="10" BorderThickness="1" BorderBrush="#E5E5E5">
+                                            <StackPanel>
+                                                <Border Height="160" Width="230" Margin="0,10,0,5">
+                                                    <Image Source="{Binding ImageSource}" Stretch="UniformToFill"/>
+                                                </Border>
+                                                <TextBlock Text="{Binding Name}" FontWeight="SemiBold" FontSize="16" Margin="10,5"/>
+                                                <Grid Margin="10,0">
+                                                    <TextBlock Text="In stock:" Foreground="#888888"/>
+                                                    <TextBlock Text="{Binding InStock}" HorizontalAlignment="Right"/>
+                                                </Grid>
+                                                <Grid Margin="10,5">
+                                                    <TextBlock Text="{Binding Price, StringFormat='{}{0}'}" FontWeight="Bold" FontSize="16"/>
+                                                </Grid>
+                                                <Button Content="Add to Cart" Background="#4CAF50" Foreground="White" BorderThickness="0" Margin="10" Padding="5" Click="AddToCart_Click"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Border>
+
+                    <!-- Cart Section -->
+                    <Border Grid.Row="1" Background="White" CornerRadius="10" Padding="20">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <!-- Cart Header -->
+                            <Grid Grid.Row="0">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="3*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="1*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="Item" FontWeight="SemiBold" Padding="10"/>
+                                <TextBlock Grid.Column="1" Text="Price" FontWeight="SemiBold" Padding="10"/>
+                                <TextBlock Grid.Column="2" Text="Quantity" FontWeight="SemiBold" Padding="10"/>
+                                <TextBlock Grid.Column="3" Text="Total" FontWeight="SemiBold" Padding="10"/>
+                                <TextBlock Grid.Column="4" Text="Action" FontWeight="SemiBold" Padding="10"/>
+                            </Grid>
+
+                            <!-- Cart Items -->
+                            <ListView Grid.Row="1" ItemsSource="{Binding CartItems}" BorderThickness="0" Background="Transparent">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Height="40">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="3*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="2*"/>
+                                                <ColumnDefinition Width="1*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0" Text="{Binding Name}" VerticalAlignment="Center"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Price, StringFormat='Ru. {0:F2}'}" VerticalAlignment="Center"/>
+
+                                            <Grid Grid.Column="2">
+                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                                                    <Button Content="-" Width="30" Click="DecreaseQuantity_Click"/>
+                                                    <TextBlock Text="{Binding Quantity}" VerticalAlignment="Center" Width="30" TextAlignment="Center"/>
+                                                    <Button Content="+" Width="30" Click="IncreaseQuantity_Click"/>
+                                                </StackPanel>
+                                            </Grid>
+
+                                            <TextBlock Grid.Column="3" Text="{Binding Total, StringFormat='Ru. {0:F2}'}" VerticalAlignment="Center"/>
+
+                                            <Button Grid.Column="4" Content="Remove" Click="RemoveFromCart_Click"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+
+                            <!-- Cart Footer -->
+                            <Grid Grid.Row="2" Margin="0,20,0,0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Text="{Binding TotalAmount, StringFormat='Total: Ru. {0:F2}'}" FontWeight="Bold" FontSize="16" Margin="0,10"/>
+
+                                <Grid Grid.Row="1" Margin="0,10">
+                                    <TextBlock Text="Amount Paid (LKR):" VerticalAlignment="Center"/>
+                                    <TextBox x:Name="PaymentTextBox" Width="200" HorizontalAlignment="Right"/>
+                                </Grid>
+
+                                <TextBlock Grid.Row="2" Text="{Binding TotalAmount, StringFormat='Total Amount: LKR {0:F2}'}" Margin="0,10"/>
+
+                                <Button Grid.Row="3" Content="Checkout" Width="100" Height="30" HorizontalAlignment="Left" Margin="0,10" 
+                                        Background="#4CAF50" Foreground="White" BorderThickness="0" Click="Checkout_Click"/>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>

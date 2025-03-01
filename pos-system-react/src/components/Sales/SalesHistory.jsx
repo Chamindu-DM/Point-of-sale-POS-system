@@ -1,62 +1,72 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect } from 'react';
 import './SalesHistory.css';
 
-const SalesHistory = ({ sales }) => {
-  return (
-    <div className="sales-history">
-      <h2>Sales History</h2>
-      <table className="sales-table">
-        <thead>
-          <tr>
-            <th>Invoice #</th>
-            <th>Date & Time</th>
-            <th>Items</th>
-            <th>Quantity</th>
-            <th>Total (LKR)</th>
-            <th>Paid (LKR)</th>
-            <th>Balance (LKR)</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sales.map((sale) => (
-            <tr key={sale.invoiceNumber}>
-              <td>{sale.invoiceNumber}</td>
-              <td>{new Date(sale.date).toLocaleString()}</td>
-              <td>
-                {sale.items.map(item => item.name).join(', ')}
-              </td>
-              <td>
-                {sale.items.map(item => item.quantity).reduce((a, b) => a + b, 0)}
-              </td>
-              <td>{sale.total.toFixed(2)}</td>
-              <td>{sale.paidAmount.toFixed(2)}</td>
-              <td>{sale.balance.toFixed(2)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
-  );
-};
+const SalesHistory = () => {
+    const [sales, setSales] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-SalesHistory.propTypes = {
-  sales: PropTypes.arrayOf(
-    PropTypes.shape({
-      invoiceNumber: PropTypes.number.isRequired,
-      date: PropTypes.string.isRequired,
-      items: PropTypes.arrayOf(
-        PropTypes.shape({
-          name: PropTypes.string.isRequired,
-          quantity: PropTypes.number.isRequired,
-          price: PropTypes.number.isRequired
-        })
-      ).isRequired,
-      total: PropTypes.number.isRequired,
-      paidAmount: PropTypes.number.isRequired,
-      balance: PropTypes.number.isRequired
-    })
-  ).isRequired
+    useEffect(() => {
+        fetchSales();
+    }, []);
+
+    const fetchSales = async () => {
+        try {
+            const response = await fetch('http://localhost:5000/api/sales');
+            if (!response.ok) {
+                throw new Error('Failed to fetch sales data');
+            }
+            const data = await response.json();
+            console.log('Fetched sales data:', data); // Debug log
+            setSales(Array.isArray(data) ? data : data.sales || []);
+            setLoading(false);
+        } catch (err) {
+            console.error('Error fetching sales:', err);
+            setError(err.message);
+            setLoading(false);
+        }
+    };
+
+    if (loading) return <div className="loading">Loading sales history...</div>;
+    if (error) return <div className="error">{error}</div>;
+
+    return (
+        <div className="sales-history">
+            <h2>Sales History</h2>
+            {sales.length === 0 ? (
+                <div className="no-sales">No sales records found</div>
+            ) : (
+                <table className="sales-table">
+                    <thead>
+                        <tr>
+                            <th>Invoice #</th>
+                            <th>Date & Time</th>
+                            <th>Items</th>
+                            <th>Quantity</th>
+                            <th>Total (LKR)</th>
+                            <th>Paid (LKR)</th>
+                            <th>Balance (LKR)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {sales.map((sale) => (
+                            <tr key={sale._id || sale.invoiceNumber}>
+                                <td>{sale.invoiceNumber}</td>
+                                <td>{new Date(sale.date).toLocaleString()}</td>
+                                <td>{sale.items?.map(item => item.name).join(', ') || 'N/A'}</td>
+                                <td>
+                                    {sale.items?.map(item => item.quantity).reduce((a, b) => a + b, 0) || 0}
+                                </td>
+                                <td>{(sale.total || 0).toFixed(2)}</td>
+                                <td>{(sale.paidAmount || 0).toFixed(2)}</td>
+                                <td>{(sale.balance || 0).toFixed(2)}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
 };
 
 export default SalesHistory;
