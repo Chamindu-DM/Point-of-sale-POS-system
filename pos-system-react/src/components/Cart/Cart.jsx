@@ -1,64 +1,45 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import "./Cart.css";
 
-const Cart = ({ cart = [], onRemoveFromCart, onAdjustQuantity, total = 0 }) => {
-  const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+const Cart = ({ cart, onRemoveFromCart, onAdjustQuantity, total }) => {
+  if (cart.length === 0) {
+    return (
+      <div className="cart-container">
+        <h2>Your Cart</h2>
+        <p className="empty-cart">Your cart is empty</p>
+        <div className="cart-total">
+          <p>Total: LKR {total.toFixed(2)}</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="cart">
-      <table className="cart-table">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Total</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {cart.map((item) => (
-            <tr key={item.name}>
-              <td>{item.name}</td>
-              <td>Ru. {item.price.toFixed(2)}</td>
-              <td className="quantity-cell">
-                <div className="quantity-wrapper">
-                  <button className="quantity-btn" onClick={() => onAdjustQuantity(item.name, -1)}>-</button>
-                  <span className="quantity-display">{item.quantity}</span>
-                  <button className="quantity-btn" onClick={() => onAdjustQuantity(item.name, 1)}>+</button>
-                </div>
-              </td>
-              <td>Ru. {(item.price * item.quantity).toFixed(2)}</td>
-              <td>
-                <button className="remove-btn" onClick={() => onRemoveFromCart(item.name)}>Remove</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="cart-container">
+      <h2>Your Cart</h2>
+      <ul className="cart-items">
+        {cart.map((item) => (
+          <li key={item._id || item.id} className="cart-item">
+            <div className="item-info">
+              <span className="item-name">{item.name}</span>
+              <span className="item-price">LKR {item.price} x {item.quantity}</span>
+            </div>
+            <div className="item-actions">
+              <button onClick={() => onAdjustQuantity(item._id || item.id, -1)} className="quantity-btn">-</button>
+              <span className="item-quantity">{item.quantity}</span>
+              <button onClick={() => onAdjustQuantity(item._id || item.id, 1)} className="quantity-btn">+</button>
+              <button onClick={() => onRemoveFromCart(item._id || item.id)} className="remove-btn">
+                Remove
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
       <div className="cart-total">
-        <strong>Total:</strong> Ru. {cartTotal.toFixed(2)}
+        <p>Total: LKR {total.toFixed(2)}</p>
       </div>
     </div>
   );
-};
-
-Cart.propTypes = {
-  cart: PropTypes.arrayOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      quantity: PropTypes.number.isRequired
-    })
-  ),
-  onRemoveFromCart: PropTypes.func.isRequired,
-  onAdjustQuantity: PropTypes.func.isRequired,
-  total: PropTypes.number
-};
-
-Cart.defaultProps = {
-  cart: [],
-  total: 0
 };
 
 export default Cart;

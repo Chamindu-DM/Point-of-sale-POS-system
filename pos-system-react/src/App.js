@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import ProductItem from "./components/Products/ProductItem";
 import Cart from "./components/Cart/Cart";
 import CheckoutButton from "./components/Checkout/CheckoutButton";
@@ -18,8 +18,33 @@ const App = () => {
   const [salesHistory, setSalesHistory] = useState([]);
   const [currentInvoiceNumber, setCurrentInvoiceNumber] = useState(1);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const products = [
+  // Fetch products from the backend
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/api/products');
+        if (!response.ok) {
+          throw new Error('Failed to fetch products');
+        }
+        const data = await response.json();
+        setProducts(data);
+        setLoading(false);
+      } catch (err) {
+        console.error('Error fetching products:', err);
+        setError('Failed to load products. Please try again later.');
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
+
+  // Default products as fallback if API fails
+  const defaultProducts = [
     { 
       id: 1, 
       name: "Tea Bun", 
@@ -43,20 +68,23 @@ const App = () => {
     }
   ];
 
+  // Use API products if available, otherwise use default products
+  const displayProducts = products.length > 0 ? products : defaultProducts;
+
   const addToCart = (product) => {
     setCart((prevCart) => {
-      const existingItem = prevCart.find((item) => item.name === product.name);
+      const existingItem = prevCart.find((item) => item._id === product._id);
       
       // Check if adding would exceed available stock
       const currentQuantity = existingItem ? existingItem.quantity : 0;
-      if (currentQuantity + 1 > product.stockQuantity) {
-        alert(`Sorry, only ${product.stockQuantity} ${product.name}(s) available in stock`);
+      if (currentQuantity + 1 > (product.quantity || product.stockQuantity)) {
+        alert(`Sorry, only ${product.quantity || product.stockQuantity} ${product.name}(s) available in stock`);
         return prevCart;
       }
       
       if (existingItem) {
         return prevCart.map((item) =>
-          item.name === product.name
+          item._id === product._id
             ? { ...item, quantity: item.quantity + 1 }
             : item
         );
@@ -65,16 +93,16 @@ const App = () => {
     });
   };
 
-  const removeFromCart = (productName) => {
+  const removeFromCart = (productId) => {
     setCart((prevCart) =>
-      prevCart.filter((item) => item.name !== productName)
+      prevCart.filter((item) => item._id !== productId)
     );
   };
 
-  const adjustQuantity = (productName, change) => {
+  const adjustQuantity = (productId, change) => {
     setCart((prevCart) =>
       prevCart.map((item) => {
-        if (item.name === productName) {
+        if (item._id === productId) {
           const newQuantity = item.quantity + change;
           if (newQuantity < 1) {
             return null; // Will be filtered out
@@ -105,10 +133,26 @@ const App = () => {
       balance: paidAmount - calculateTotal()
     };
 
-    setSalesHistory([...salesHistory, sale]);
-    setCurrentInvoiceNumber(prev => prev + 1);
-    setCart([]);
-    setPaidAmount(0);
+    // Send the sale to the backend
+    fetch('http://localhost:5000/api/sales', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(sale)
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Sale recorded successfully:', data);
+      setSalesHistory([...salesHistory, data]);
+      setCurrentInvoiceNumber(prev => prev + 1);
+      setCart([]);
+      setPaidAmount(0);
+    })
+    .catch(error => {
+      console.error('Error recording sale:', error);
+      alert('Failed to record sale. Please try again.');
+    });
   };
 
   const handlePaidAmountChange = (e) => {
@@ -129,11 +173,25 @@ const App = () => {
             <Route path="/" element={
               <div className="pos-container">
                 <main>
-                  <div className="product-grid">
-                    {products.map((product) => (
-                      <ProductItem key={product.id} {...product} onAddToCart={() => addToCart(product)} />
-                    ))}
-                  </div>
+                  {loading ? (
+                    <div className="loading">Loading products...</div>
+                  ) : error ? (
+                    <div className="error">{error}</div>
+                  ) : (
+                    <div className="product-grid">
+                      {displayProducts.map((product) => (
+                        <ProductItem 
+                          key={product._id || product.id} 
+                          id={product._id || product.id}
+                          name={product.name}
+                          price={product.price}
+                          image={product.imageUrl ? `http://localhost:5000${product.imageUrl}` : (product.image || '/default-product-image.png')}
+                          stockQuantity={product.quantity || product.stockQuantity}
+                          onAddToCart={() => addToCart(product)} 
+                        />
+                      ))}
+                    </div>
+                  )}
                   <Cart 
                     cart={cart} 
                     onRemoveFromCart={removeFromCart} 
