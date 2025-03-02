@@ -8,6 +8,7 @@ import SalesHistory from './components/Sales/SalesHistory';
 import SidePanel from "./components/SidePanel/SidePanel"; 
 import AddProduct from './components/Products/AddProduct';
 import ViewProducts from './components/Products/ViewProducts';
+import InventoryPage from './components/Inventory/InventoryPage';
 import "./styles.css";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -45,6 +46,14 @@ const App = () => {
   const addToCart = (product) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((item) => item.name === product.name);
+      
+      // Check if adding would exceed available stock
+      const currentQuantity = existingItem ? existingItem.quantity : 0;
+      if (currentQuantity + 1 > product.stockQuantity) {
+        alert(`Sorry, only ${product.stockQuantity} ${product.name}(s) available in stock`);
+        return prevCart;
+      }
+      
       if (existingItem) {
         return prevCart.map((item) =>
           item.name === product.name
