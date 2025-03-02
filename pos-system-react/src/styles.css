@@ -252,11 +252,11 @@ button:disabled {
   padding: 8px 16px;
   color: #000000;
   border: 1px solid #ddd;
-  background: #000000;
+  background: #ff00003b;
   cursor: pointer;
   border-radius: 4px;
 }
 
 .remove-btn:hover {
-  background: #0055aa;
+  background: #ff000055;
 }

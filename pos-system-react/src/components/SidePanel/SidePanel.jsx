@@ -24,7 +24,7 @@ const SidePanel = () => {
             submenu: [
                 { title: 'View Products', path: '/products' },
                 { title: 'Add Product', path: '/products/add' },
-                { title: 'Inventory', path: '/products/inventory' }
+                { title: 'Inventory', path: '/inventory' }
             ]
         },
         {

@@ -6,7 +6,14 @@ const path = require('path');
 const Sale = require('./models/Sale');
 
 const app = express();
-app.use(cors());
+
+// Configure CORS
+app.use(cors({
+  origin: 'http://localhost:3000',  // Your React app's URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true
+}));
+
 app.use(express.json());
 
 // MongoDB connection
@@ -167,25 +174,80 @@ app.get('/api/sales', async (req, res) => {
     }
 });
 
-// Add new sale
+// Update the sales endpoint
 app.post('/api/sales', async (req, res) => {
-    try {
-        // Get the last invoice number
-        const lastSale = await Sale.findOne().sort({ invoiceNumber: -1 });
-        const invoiceNumber = lastSale ? lastSale.invoiceNumber + 1 : 1000;
+  try {
+    console.log('Received sale data:', req.body);
 
-        const newSale = new Sale({
-            ...req.body,
-            invoiceNumber,
-            date: new Date()
-        });
-
-        const savedSale = await newSale.save();
-        res.status(201).json(savedSale);
-    } catch (err) {
-        console.error('Error creating sale:', err);
-        res.status(400).json({ message: err.message });
+    if (!req.body.items || !Array.isArray(req.body.items) || req.body.items.length === 0) {
+      return res.status(400).json({ 
+        success: false, 
+        message: 'Sale items are required and must be non-empty array' 
+      });
     }
+
+    // Get the last invoice number from the database
+    const lastSale = await Sale.findOne().sort({ invoiceNumber: -1 });
+    
+    // Generate new invoice number (start with 1001 if no previous sales)
+    const invoiceNumber = lastSale ? lastSale.invoiceNumber + 1 : 1001;
+    
+    console.log(`Creating new sale with invoice #${invoiceNumber}`);
+    
+    const newSale = new Sale({
+      invoiceNumber: invoiceNumber,
+      date: new Date(),
+      items: req.body.items,
+      total: req.body.total,
+      paidAmount: req.body.paidAmount,
+      balance: req.body.balance
+    });
+
+    // Update inventory quantities
+    for (const item of newSale.items) {
+      // Handle items that don't have _id (they might be local items)
+      if (!item._id) {
+        console.warn(`Item without ID: ${item.name}`);
+        continue;
+      }
+      
+      try {
+        const product = await Product.findById(item._id);
+        if (!product) {
+          console.warn(`Product not found: ${item._id} (${item.name})`);
+          continue;
+        }
+        
+        // Check if sufficient quantity is available
+        if (product.quantity < item.quantity) {
+          return res.status(400).json({
+            success: false,
+            message: `Insufficient quantity for ${item.name}. Available: ${product.quantity}`
+          });
+        }
+        
+        // Reduce the quantity
+        product.quantity -= item.quantity;
+        await product.save();
+        console.log(`Updated inventory for ${item.name}: new quantity = ${product.quantity}`);
+      } catch (err) {
+        console.error(`Error processing item ${item.name}:`, err);
+        // Continue with other items even if one fails
+      }
+    }
+
+    // Save the sale
+    const savedSale = await newSale.save();
+    console.log('Sale saved successfully:', savedSale);
+    
+    res.status(201).json(savedSale);
+  } catch (err) {
+    console.error('Error creating sale:', err);
+    res.status(400).json({ 
+      success: false, 
+      message: err.message || 'Failed to create sale' 
+    });
+  }
 });
 
 // Get sale by invoice number

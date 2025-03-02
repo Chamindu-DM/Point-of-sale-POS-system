@@ -21,27 +21,28 @@ const App = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   // Fetch products from the backend
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const response = await fetch('http://localhost:5000/api/products');
-        if (!response.ok) {
-          throw new Error('Failed to fetch products');
-        }
-        const data = await response.json();
-        setProducts(data);
-        setLoading(false);
-      } catch (err) {
-        console.error('Error fetching products:', err);
-        setError('Failed to load products. Please try again later.');
-        setLoading(false);
-      }
-    };
-
     fetchProducts();
   }, []);
+
+  const fetchProducts = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/products');
+      if (!response.ok) {
+        throw new Error('Failed to fetch products');
+      }
+      const data = await response.json();
+      setProducts(data);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching products:', err);
+      setError('Failed to load products. Please try again later.');
+      setLoading(false);
+    }
+  };
 
   // Default products as fallback if API fails
   const defaultProducts = [
@@ -124,15 +125,28 @@ const App = () => {
       return;
     }
     
+    // Make sure paidAmount is a valid number
+    if (!paidAmount || isNaN(paidAmount) || paidAmount < calculateTotal()) {
+      alert("Please enter a valid payment amount that covers the total.");
+      return;
+    }
+    
     const sale = {
-      invoiceNumber: currentInvoiceNumber,
+      // Remove invoiceNumber - let the server assign it
       date: new Date().toISOString(),
-      items: [...cart],
+      items: cart.map(item => ({
+        _id: item._id || item.id, // Ensure _id is included
+        name: item.name,
+        quantity: item.quantity,
+        price: item.price
+      })),
       total: calculateTotal(),
       paidAmount: paidAmount,
       balance: paidAmount - calculateTotal()
     };
-
+  
+    console.log("Sending sale data:", sale); // Debug log
+  
     // Send the sale to the backend
     fetch('http://localhost:5000/api/sales', {
       method: 'POST',
@@ -141,17 +155,24 @@ const App = () => {
       },
       body: JSON.stringify(sale)
     })
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        return response.json().then(err => {
+          throw new Error(err.message || "Server responded with an error");
+        });
+      }
+      return response.json();
+    })
     .then(data => {
       console.log('Sale recorded successfully:', data);
-      setSalesHistory([...salesHistory, data]);
-      setCurrentInvoiceNumber(prev => prev + 1);
+      alert(`Sale completed! Invoice #: ${data.invoiceNumber}`);
+      setSalesHistory(prevHistory => [...prevHistory, data]);
       setCart([]);
       setPaidAmount(0);
     })
     .catch(error => {
       console.error('Error recording sale:', error);
-      alert('Failed to record sale. Please try again.');
+      alert(`Failed to record sale: ${error.message}`);
     });
   };
 
@@ -203,13 +224,18 @@ const App = () => {
                     paidAmount={paidAmount} 
                     onPaidAmountChange={handlePaidAmountChange} 
                   />
-                  <CheckoutButton onCheckout={handleCheckout} />
+                  <CheckoutButton 
+                    onCheckout={handleCheckout} 
+                    isLoading={isProcessing} 
+                    disabled={cart.length === 0 || paidAmount < calculateTotal()}
+                  />
                 </main>
               </div>
             } />
             <Route path="/sales" element={<SalesHistory sales={salesHistory} />} />
             <Route path="/products/add" element={<AddProduct />} />
             <Route path="/products" element={<ViewProducts />} />
+            <Route path="/inventory" element={<InventoryPage />} />
           </Routes>
         </div>
       </div>

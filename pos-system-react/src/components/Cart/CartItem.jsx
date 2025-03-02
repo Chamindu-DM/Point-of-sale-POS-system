@@ -1,6 +1,8 @@
 import React from 'react';
 import plusIcon from '../../assets/icons/plus.svg';
 import minusIcon from '../../assets/icons/minus.svg';
+import './Cart.css';
+
 
 const CartItem = ({ item, onRemove, onAdjustQuantity }) => {
   return (

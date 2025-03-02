@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const balanceElement = document.getElementById("balance");
     let cart = [];
     let cartItemId = 0;
-    let currentInvoiceNumber = 1;
+    let currentInvoiceNumber = 1001; // Start with a default value
     let dailySales = [];
 
     function addToCart(name, price) {

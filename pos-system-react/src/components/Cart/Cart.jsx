@@ -1,5 +1,5 @@
 import React from "react";
-import "./Cart.css";
+import './Cart.css';
 
 const Cart = ({ cart, onRemoveFromCart, onAdjustQuantity, total }) => {
   if (cart.length === 0) {

@@ -1,12 +1,14 @@
 import React from 'react';
+import './CheckoutButton.css';
 
-const CheckoutButton = ({ onCheckout }) => {
+const CheckoutButton = ({ onCheckout, isLoading, disabled }) => {
     return (
         <button
             className="checkout-button"
             onClick={onCheckout}
+            disabled={isLoading || disabled}
         >
-            Checkout
+            {isLoading ? 'Processing...' : 'Checkout'}
         </button>
     );
 };

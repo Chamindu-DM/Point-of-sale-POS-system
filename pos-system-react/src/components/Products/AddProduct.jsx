@@ -11,6 +11,7 @@ const AddProduct = () => {
     });
     const [image, setImage] = useState(null);
     const [message, setMessage] = useState({ type: '', text: '' });
+    const [cart, setCart] = useState([]);
 
     const handleInputChange = (e) => {
         setProduct({ ...product, [e.target.name]: e.target.value });
@@ -56,6 +57,41 @@ const AddProduct = () => {
         } catch (error) {
             setMessage({ type: 'error', text: 'Error adding product' });
         }
+    };
+
+    const addToCart = (product) => {
+        setCart((prevCart) => {
+            // Use _id if available, otherwise use id (for local products)
+            const itemId = product._id || product.id;
+            const existingItem = prevCart.find((item) => (item._id || item.id) === itemId);
+            
+            // Check stock
+            const currentQuantity = existingItem ? existingItem.quantity : 0;
+            if (currentQuantity + 1 > (product.quantity || product.stockQuantity)) {
+                alert(`Sorry, only ${product.quantity || product.stockQuantity} ${product.name}(s) available in stock`);
+                return prevCart;
+            }
+
+            if (existingItem) {
+                return prevCart.map((item) =>
+                    (item._id || item.id) === itemId
+                        ? { ...item, quantity: item.quantity + 1 }
+                        : item
+                );
+            } else {
+                return [
+                    ...prevCart,
+                    {
+                        _id: product._id || product.id,
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        quantity: 1,
+                        stockQuantity: product.quantity || product.stockQuantity
+                    },
+                ];
+            }
+        });
     };
 
     return (

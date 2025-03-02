@@ -11,31 +11,14 @@ const saleSchema = new mongoose.Schema({
         default: Date.now
     },
     items: [{
-        name: {
-            type: String,
-            required: true
-        },
-        quantity: {
-            type: Number,
-            required: true
-        },
-        price: {
-            type: Number,
-            required: true
-        }
+        _id: String,
+        name: String,
+        quantity: Number,
+        price: Number
     }],
-    total: {
-        type: Number,
-        required: true
-    },
-    paidAmount: {
-        type: Number,
-        required: true
-    },
-    balance: {
-        type: Number,
-        required: true
-    }
+    total: Number,
+    paidAmount: Number,
+    balance: Number
 });
 
 module.exports = mongoose.model('Sale', saleSchema);
