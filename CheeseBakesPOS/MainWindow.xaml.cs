@@ -77,7 +77,7 @@ namespace CheeseBakesPOS
                     Name = "Chicken Puff",
                     Price = 250.00m,
                     InStock = 12,
-                    ImageSource = "/Images/chicken_puff.jpg"
+                    ImageSource = "/Images/Chicken Puff.jpeg"
                 }
             };
 
@@ -188,6 +188,11 @@ namespace CheeseBakesPOS
             CartItems.Clear();
             PaymentTextBox.Text = string.Empty;
             CalculateTotalAmount();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 

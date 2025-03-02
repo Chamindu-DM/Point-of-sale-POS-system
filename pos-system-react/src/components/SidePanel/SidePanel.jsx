@@ -28,11 +28,6 @@ const SidePanel = () => {
             ]
         },
         {
-            title: 'Orders',
-            icon: 'fas fa-clipboard-list',
-            path: '/orders'
-        },
-        {
             title: 'Reports',
             icon: 'fas fa-chart-bar',
             path: '/reports'
