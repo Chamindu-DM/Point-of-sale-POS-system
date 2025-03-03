@@ -133,45 +133,14 @@ app.get('/api/orders', (req, res) => {
 
 // Sales
 app.get('/api/sales', async (req, res) => {
-    try {
-        const { startDate, endDate, page = 1, limit = 10 } = req.query;
-        let query = {};
-
-        if (startDate && endDate) {
-            query.date = {
-                $gte: new Date(startDate),
-                $lte: new Date(endDate)
-            };
-        }
-
-        const sales = await Sale.find(query)
-            .sort({ date: -1 })
-            .skip((page - 1) * limit)
-            .limit(limit);
-
-        const total = await Sale.countDocuments(query);
-
-        const summary = await Sale.aggregate([
-            { $match: query },
-            {
-                $group: {
-                    _id: null,
-                    totalSales: { $sum: "$total" },
-                    totalTransactions: { $sum: 1 }
-                }
-            }
-        ]);
-
-        res.json({
-            sales,
-            totalPages: Math.ceil(total / limit),
-            currentPage: page,
-            summary: summary[0] || { totalSales: 0, totalTransactions: 0 }
-        });
-    } catch (err) {
-        console.error('Error fetching sales:', err);
-        res.status(500).json({ message: err.message });
-    }
+  try {
+    const sales = await Sale.find({}).sort({ date: -1 });
+    console.log(`Sending ${sales.length} sales records to client`);
+    res.json(sales);
+  } catch (err) {
+    console.error('Error fetching sales:', err);
+    res.status(500).json({ message: 'Error fetching sales data' });
+  }
 });
 
 // Update the sales endpoint

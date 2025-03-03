@@ -22,6 +22,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [refreshSalesHistory, setRefreshSalesHistory] = useState(0);
 
   // Fetch products from the backend
   useEffect(() => {
@@ -169,6 +170,8 @@ const App = () => {
       setSalesHistory(prevHistory => [...prevHistory, data]);
       setCart([]);
       setPaidAmount(0);
+      // After successful checkout, trigger a refresh of the sales history
+      setRefreshSalesHistory(prev => prev + 1);
     })
     .catch(error => {
       console.error('Error recording sale:', error);
@@ -232,7 +235,7 @@ const App = () => {
                 </main>
               </div>
             } />
-            <Route path="/sales" element={<SalesHistory sales={salesHistory} />} />
+            <Route path="/sales" element={<SalesHistory sales={salesHistory} refreshTrigger={refreshSalesHistory} />} />
             <Route path="/products/add" element={<AddProduct />} />
             <Route path="/products" element={<ViewProducts />} />
             <Route path="/inventory" element={<InventoryPage />} />

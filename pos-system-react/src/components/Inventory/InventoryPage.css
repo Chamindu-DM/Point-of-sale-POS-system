@@ -140,16 +140,15 @@ th {
 
 .loading {
     text-align: center;
-    padding: 50px;
+    padding: 8px 0px;
     font-size: 1.2rem;
     color: #666;
 }
 
 .error {
     text-align: center;
-    padding: 50px;
+    padding: 8px 8px;
     font-size: 1.2rem;
-    color: #dc3545;
 }
 
 .alert {
@@ -165,9 +164,7 @@ th {
 }
 
 .error {
-    background-color: #f8d7da;
     color: #721c24;
-    border: 1px solid #f5c6cb;
 }
 
 .edit-actions {

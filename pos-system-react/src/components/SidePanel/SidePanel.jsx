@@ -27,11 +27,13 @@ const SidePanel = () => {
                 { title: 'Inventory', path: '/inventory' }
             ]
         },
+        /*
         {
             title: 'Reports',
             icon: 'fas fa-chart-bar',
             path: '/reports'
         }
+        */
     ];
 
     const handleSubmenuToggle = (itemTitle) => {
