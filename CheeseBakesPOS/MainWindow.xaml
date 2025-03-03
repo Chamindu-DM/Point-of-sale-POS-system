@@ -30,17 +30,64 @@
                     <TextBlock Text="Dashboard" Padding="20,10" FontWeight="Normal" Foreground="#3E91FF"/>
                 </Border>
 
-                <TextBlock Text="Sales" Padding="20,10" Foreground="#888888"/>
+                <Button Content="Sales" 
+                        Padding="20,10" 
+                        Foreground="#888888" 
+                        Background="Transparent" 
+                        BorderThickness="0" 
+                        HorizontalContentAlignment="Left"
+                        HorizontalAlignment="Stretch"
+                        Click="SalesButton_Click"/>
+                <StackPanel>
+                    <Expander>
+                        <Expander.Header>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
 
-                <Grid>
-                    <TextBlock Text="Products" Padding="20,10" Foreground="#888888"/>
-                    <TextBlock Text="▾" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Center" Foreground="#888888"/>
-                </Grid>
+                                <!-- Chevron with dynamic text -->
 
-                <StackPanel Margin="20,0,0,0">
-                    <TextBlock Text="View Products" Padding="15,8" Foreground="#888888"/>
-                    <TextBlock Text="Add Product" Padding="15,8" Foreground="#888888"/>
-                    <TextBlock Text="Inventory" Padding="15,8" Foreground="#888888"/>
+                                <!-- Text aligned to the left -->
+                                
+                                <TextBlock Text="Products" Padding="20,10" Foreground="#888888" VerticalAlignment="Center"/>
+
+                                
+                            </Grid>
+                        </Expander.Header>
+
+                        <!-- Expander content -->
+                        <StackPanel Margin="20,0,0,0">
+                            <Button Content="View Products" 
+        Padding="20,10" 
+        Foreground="#888888" 
+        Background="Transparent" 
+        BorderThickness="0" 
+        HorizontalContentAlignment="Left"
+        HorizontalAlignment="Stretch"
+        Click="SalesButton_Click"/>
+
+                            <Button Content="Add Product" 
+        Padding="20,10" 
+        Foreground="#888888" 
+        Background="Transparent" 
+        BorderThickness="0" 
+        HorizontalContentAlignment="Left"
+        HorizontalAlignment="Stretch"
+        Click="SalesButton_Click"/>
+
+                            <Button Content="Inventory" 
+        Padding="20,10" 
+        Foreground="#888888" 
+        Background="Transparent" 
+        BorderThickness="0" 
+        HorizontalContentAlignment="Left"
+        HorizontalAlignment="Stretch"
+        Click="SalesButton_Click"/>
+                            
+                        </StackPanel>
+                    </Expander>
                 </StackPanel>
 
                 <TextBlock Text="Orders" Padding="20,10" Foreground="#888888"/>
@@ -183,10 +230,10 @@
 
                                 <TextBlock Grid.Row="0" Text="{Binding TotalAmount, StringFormat='Total: Ru. {0:F2}'}" FontWeight="Bold" FontSize="16" Margin="0,10"/>
 
-                                <Grid Grid.Row="1" Margin="0,10">
+                                <StackPanel Grid.Row="1" Margin="0,10">
                                     <TextBlock Text="Amount Paid (LKR):" VerticalAlignment="Center"/>
-                                    <TextBox x:Name="PaymentTextBox" Width="200" HorizontalAlignment="Right"/>
-                                </Grid>
+                                    <TextBox x:Name="PaymentTextBox" Width="200" HorizontalAlignment="Left" Margin="0,10" Padding="0,10"/>
+                                </StackPanel>
 
                                 <TextBlock Grid.Row="2" Text="{Binding TotalAmount, StringFormat='Total Amount: LKR {0:F2}'}" Margin="0,10"/>
 

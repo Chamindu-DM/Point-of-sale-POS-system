@@ -186,13 +186,36 @@ app.post('/api/sales', async (req, res) => {
       });
     }
 
-    // Get the last invoice number from the database
-    const lastSale = await Sale.findOne().sort({ invoiceNumber: -1 });
+    // Initialize with a default value first
+    let invoiceNumber = 1001; 
     
-    // Generate new invoice number (start with 1001 if no previous sales)
-    const invoiceNumber = lastSale ? lastSale.invoiceNumber + 1 : 1001;
+    try {
+      // Get the last invoice number from the database
+      const lastSale = await Sale.findOne().sort({ invoiceNumber: -1 });
+      console.log('Last sale found:', lastSale);
+      
+      // Only update if we found a valid last sale with a numeric invoice number
+      if (lastSale && typeof lastSale.invoiceNumber === 'number' && !isNaN(lastSale.invoiceNumber)) {
+        invoiceNumber = lastSale.invoiceNumber + 1;
+      } else if (lastSale && lastSale.invoiceNumber) {
+        // Try to convert string to number if needed
+        const parsed = Number(lastSale.invoiceNumber);
+        if (!isNaN(parsed)) {
+          invoiceNumber = parsed + 1;
+        }
+      }
+    } catch (err) {
+      console.error('Error finding last sale:', err);
+      // Keep the default invoice number if there's an error
+    }
     
     console.log(`Creating new sale with invoice #${invoiceNumber}`);
+    
+    // Final safety check to prevent NaN
+    if (isNaN(invoiceNumber) || typeof invoiceNumber !== 'number') {
+      invoiceNumber = 1001; // Fallback to default
+      console.log(`Forced invoice number to default: ${invoiceNumber}`);
+    }
     
     const newSale = new Sale({
       invoiceNumber: invoiceNumber,

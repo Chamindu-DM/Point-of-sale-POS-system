@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -9,9 +10,6 @@ using System.Windows.Media.Imaging;
 
 namespace CheeseBakesPOS
 {
-    /// <summary>
-    /// Main Window for Cheese Bakes POS System
-    /// </summary>
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         private ObservableCollection<Product> _products;
@@ -190,9 +188,14 @@ namespace CheeseBakesPOS
             CalculateTotalAmount();
         }
 
+        private void SalesButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Implement Sales button functionality
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-
+            // Implement other button functionality
         }
     }
 
@@ -287,6 +290,8 @@ namespace CheeseBakesPOS
             {
                 _quantity = value;
                 OnPropertyChanged(nameof(Quantity));
+                // Recalculate Total when Quantity changes
+                Total = Price * Quantity;
             }
         }
 
@@ -305,4 +310,5 @@ namespace CheeseBakesPOS
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+
 }
