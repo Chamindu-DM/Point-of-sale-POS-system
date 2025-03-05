@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\chami\Documents\GitHub\Point-of-sale-POS-system\CheeseBakesPOS\App.xaml
-11407045341
+5-475481992
 
-61641549974
-198-352714763
-MainWindow.xaml;
+20-761234386
+2281141463737
+AddProductWindow.xaml;InventoryWindow.xaml;MainWindow.xaml;ProductsWindow.xaml;SalesWindow.xaml;
 
 False
 

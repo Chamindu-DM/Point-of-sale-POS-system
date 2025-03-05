@@ -14,7 +14,7 @@
 
         <!-- Left Sidebar -->
         <Border Grid.Column="0" Background="#F5F5F5">
-            <StackPanel>
+            <StackPanel x:Name="SidebarPanel">
                 <!-- Logo -->
                 <StackPanel Orientation="Horizontal" Margin="10">
                     <TextBlock Text="Cheese" FontWeight="Bold" FontSize="18" Foreground="#333333"/>
@@ -26,10 +26,20 @@
                     <ComboBoxItem Content="Main Branch"/>
                 </ComboBox>
 
-                <Border Margin="0,20,0,0" Background="#ECF4FF" BorderThickness="5,0,0,0" BorderBrush="#3E91FF">
-                    <TextBlock Text="Dashboard" Padding="20,10" FontWeight="Normal" Foreground="#3E91FF"/>
+                <!-- Dashboard - Main Window -->
+                <Border x:Name="DashboardBorder" Margin="0,20,0,0" Background="#ECF4FF" BorderThickness="5,0,0,0" BorderBrush="#3E91FF">
+                    <Button Content="Dashboard" 
+                            Padding="15,10" 
+                            FontWeight="Normal" 
+                            Foreground="#3E91FF"
+                            Background="Transparent" 
+                            BorderThickness="0" 
+                            HorizontalContentAlignment="Left"
+                            HorizontalAlignment="Stretch"
+                            Click="DashboardButton_Click"/>
                 </Border>
 
+                <!-- Sales Button -->
                 <Button Content="Sales" 
                         Padding="20,10" 
                         Foreground="#888888" 
@@ -38,6 +48,8 @@
                         HorizontalContentAlignment="Left"
                         HorizontalAlignment="Stretch"
                         Click="SalesButton_Click"/>
+                
+                <!-- Products Expandable Menu -->
                 <StackPanel>
                     <Expander>
                         <Expander.Header>
@@ -46,55 +58,41 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-
-                                <!-- Chevron with dynamic text -->
-
-                                <!-- Text aligned to the left -->
-                                
                                 <TextBlock Text="Products" Padding="20,10" Foreground="#888888" VerticalAlignment="Center"/>
-
-                                
                             </Grid>
                         </Expander.Header>
 
                         <!-- Expander content -->
                         <StackPanel Margin="20,0,0,0">
                             <Button Content="View Products" 
-        Padding="20,10" 
-        Foreground="#888888" 
-        Background="Transparent" 
-        BorderThickness="0" 
-        HorizontalContentAlignment="Left"
-        HorizontalAlignment="Stretch"
-        Click="SalesButton_Click"/>
+                                    Padding="20,10" 
+                                    Foreground="#888888" 
+                                    Background="Transparent" 
+                                    BorderThickness="0" 
+                                    HorizontalContentAlignment="Left"
+                                    HorizontalAlignment="Stretch"
+                                    Click="ViewProductsButton_Click"/>
 
                             <Button Content="Add Product" 
-        Padding="20,10" 
-        Foreground="#888888" 
-        Background="Transparent" 
-        BorderThickness="0" 
-        HorizontalContentAlignment="Left"
-        HorizontalAlignment="Stretch"
-        Click="SalesButton_Click"/>
+                                    Padding="20,10" 
+                                    Foreground="#888888" 
+                                    Background="Transparent" 
+                                    BorderThickness="0" 
+                                    HorizontalContentAlignment="Left"
+                                    HorizontalAlignment="Stretch"
+                                    Click="AddProductButton_Click"/>
 
                             <Button Content="Inventory" 
-        Padding="20,10" 
-        Foreground="#888888" 
-        Background="Transparent" 
-        BorderThickness="0" 
-        HorizontalContentAlignment="Left"
-        HorizontalAlignment="Stretch"
-        Click="SalesButton_Click"/>
-                            
+                                    Padding="20,10" 
+                                    Foreground="#888888" 
+                                    Background="Transparent" 
+                                    BorderThickness="0" 
+                                    HorizontalContentAlignment="Left"
+                                    HorizontalAlignment="Stretch"
+                                    Click="InventoryButton_Click"/>
                         </StackPanel>
                     </Expander>
                 </StackPanel>
-
-                <TextBlock Text="Orders" Padding="20,10" Foreground="#888888"/>
-                <TextBlock Text="Reports" Padding="20,10" Foreground="#888888"/>
-
-                <TextBlock Text="Settings" Padding="20,10" Foreground="#888888" Margin="0,280,0,0"/>
-                <TextBlock Text="Logout" Padding="20,10" Foreground="#E74C3C"/>
             </StackPanel>
         </Border>
 

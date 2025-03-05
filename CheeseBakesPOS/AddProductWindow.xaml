@@ -1,0 +1,68 @@
+﻿<Window x:Class="CheeseBakesPOS.AddProductWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CheeseBakesPOS"
+        mc:Ignorable="d"
+        Title="Add New Product" Height="500" Width="500" 
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" Text="Add New Product" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+        
+        <ScrollViewer Grid.Row="1">
+            <StackPanel>
+                <!-- Product Name -->
+                <TextBlock Text="Product Name" Margin="0,5"/>
+                <TextBox Padding="5" Margin="0,0,0,15"/>
+                
+                <!-- Category -->
+                <TextBlock Text="Category" Margin="0,5"/>
+                <ComboBox Padding="5" Margin="0,0,0,15">
+                    <ComboBoxItem Content="Short Eats"/>
+                    <ComboBoxItem Content="Sweets"/>
+                    <ComboBoxItem Content="Cakes"/>
+                </ComboBox>
+                
+                <!-- Price -->
+                <TextBlock Text="Price (Ru.)" Margin="0,5"/>
+                <TextBox Padding="5" Margin="0,0,0,15"/>
+                
+                <!-- Initial Stock -->
+                <TextBlock Text="Initial Stock" Margin="0,5"/>
+                <TextBox Padding="5" Margin="0,0,0,15"/>
+                
+                <!-- Description -->
+                <TextBlock Text="Description" Margin="0,5"/>
+                <TextBox Padding="5" Height="80" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,0,0,15"/>
+                
+                <!-- Product Image -->
+                <TextBlock Text="Product Image" Margin="0,5"/>
+                <Grid Margin="0,0,0,15">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox Grid.Column="0" Padding="5" IsReadOnly="True"/>
+                    <Button Grid.Column="1" Content="Browse..." Padding="15,5" Margin="10,0,0,0"/>
+                </Grid>
+                
+                <!-- Image Preview -->
+                <Border Height="150" Background="LightGray" Margin="0,0,0,15">
+                    <TextBlock Text="Image Preview" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray"/>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
+            <Button Content="Cancel" Padding="20,5" Background="#E0E0E0" BorderThickness="0" Margin="0,0,10,0" Click="CancelButton_Click"/>
+            <Button Content="Save Product" Padding="20,5" Background="#4CAF50" Foreground="White" BorderThickness="0" Click="SaveButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

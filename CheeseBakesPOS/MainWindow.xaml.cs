@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CheeseBakesPOS.Models;
 
 namespace CheeseBakesPOS
 {
@@ -190,67 +191,108 @@ namespace CheeseBakesPOS
 
         private void SalesButton_Click(object sender, RoutedEventArgs e)
         {
-            // Implement Sales button functionality
+            // Actually create and show the Sales window
+            var salesWindow = new SalesWindow();
+            salesWindow.Show();
+            SetActiveButton(sender);
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             // Implement other button functionality
         }
-    }
 
-    public class Product : INotifyPropertyChanged
-    {
-        private string _name;
-        private decimal _price;
-        private int _inStock;
-        private string _imageSource;
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public string Name
+        private void DashboardButton_Click(object sender, RoutedEventArgs e)
         {
-            get { return _name; }
-            set
-            {
-                _name = value;
-                OnPropertyChanged(nameof(Name));
-            }
+            // This is the main window, so just make sure it's visible
+            // If you have a content frame, you could navigate to the dashboard view
+            SetActiveButton(sender);
         }
 
-        public decimal Price
+        private void ViewProductsButton_Click(object sender, RoutedEventArgs e)
         {
-            get { return _price; }
-            set
-            {
-                _price = value;
-                OnPropertyChanged(nameof(Price));
-            }
+            // Create and show Products window
+            var productsWindow = new ProductsWindow();
+            productsWindow.Show();
+            SetActiveButton(sender);
         }
 
-        public int InStock
+        private void AddProductButton_Click(object sender, RoutedEventArgs e)
         {
-            get { return _inStock; }
-            set
-            {
-                _inStock = value;
-                OnPropertyChanged(nameof(InStock));
-            }
+            // Create and show Add Product dialog
+            var addProductDialog = new AddProductWindow();
+            addProductDialog.ShowDialog(); // Use ShowDialog for modal windows
         }
 
-        public string ImageSource
+        private void InventoryButton_Click(object sender, RoutedEventArgs e)
         {
-            get { return _imageSource; }
-            set
-            {
-                _imageSource = value;
-                OnPropertyChanged(nameof(ImageSource));
-            }
+            // Create and show Inventory window
+            var inventoryWindow = new InventoryWindow();
+            inventoryWindow.Show();
+            SetActiveButton(sender);
         }
 
-        protected void OnPropertyChanged(string propertyName)
+        // Helper method to highlight the active button
+        private void SetActiveButton(object sender)
         {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            // Get the sidebar StackPanel which contains all menu items
+            var sidebarPanel = FindName("SidebarPanel") as StackPanel;
+            if (sidebarPanel == null) return;
+            
+            // Reset all buttons to default style
+            foreach (var child in sidebarPanel.Children)
+            {
+                if (child is Button sidebarButton)
+                {
+                    // Changed variable name from 'button' to 'sidebarButton'
+                    sidebarButton.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#888888"));
+                    sidebarButton.FontWeight = FontWeights.Normal;
+                }
+                else if (child is Border border)
+                {
+                    var borderButton = border.Child as Button; // Changed from 'button' to 'borderButton'
+                    if (borderButton != null)
+                    {
+                        borderButton.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#888888"));
+                        borderButton.FontWeight = FontWeights.Normal;
+                    }
+                    border.Background = Brushes.Transparent;
+                    border.BorderThickness = new Thickness(0);
+                }
+                else if (child is StackPanel stackPanel)
+                {
+                    // For expandable menu items
+                    foreach (var expander in stackPanel.Children)
+                    {
+                        if (expander is Expander exp)
+                        {
+                            foreach (var expanderChild in ((StackPanel)exp.Content).Children)
+                            {
+                                if (expanderChild is Button expanderButton)
+                                {
+                                    expanderButton.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#888888"));
+                                    expanderButton.FontWeight = FontWeights.Normal;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Set active style for clicked button
+            if (sender is Button clickedButton)
+            {
+                clickedButton.Foreground = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3E91FF"));
+                clickedButton.FontWeight = FontWeights.SemiBold;
+                
+                // If the button is inside a border, style the border
+                if (clickedButton.Parent is Border border)
+                {
+                    border.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#ECF4FF"));
+                    border.BorderThickness = new Thickness(5, 0, 0, 0);
+                    border.BorderBrush = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3E91FF"));
+                }
+            }
         }
     }
 
