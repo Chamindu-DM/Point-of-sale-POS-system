@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace CheeseBakesPOS.Models
 {
@@ -50,7 +51,6 @@ namespace CheeseBakesPOS.Models
             }
         }
 
-        [Column(TypeName = "decimal(18,2)")]
         public decimal Price
         {
             get { return _price; }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Microsoft.EntityFrameworkCore;
 
 namespace CheeseBakesPOS.Models
 {
@@ -40,7 +41,6 @@ namespace CheeseBakesPOS.Models
             }
         }
 
-        [Column(TypeName = "decimal(18,2)")]
         public decimal TotalAmount
         {
             get { return _totalAmount; }
@@ -51,7 +51,6 @@ namespace CheeseBakesPOS.Models
             }
         }
         
-        [Column(TypeName = "decimal(18,2)")]
         public decimal PaymentAmount
         {
             get { return _paymentAmount; }
@@ -62,7 +61,6 @@ namespace CheeseBakesPOS.Models
             }
         }
         
-        [Column(TypeName = "decimal(18,2)")]
         public decimal ChangeAmount
         {
             get { return _changeAmount; }

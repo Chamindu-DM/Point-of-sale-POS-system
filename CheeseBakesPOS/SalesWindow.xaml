@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" Margin="20,20,20,10">
@@ -27,32 +28,36 @@
                 </Grid.ColumnDefinitions>
                 
                 <TextBlock Grid.Column="0" Text="From:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                <DatePicker Grid.Column="1" Margin="0,0,20,0"/>
+                <DatePicker x:Name="FromDatePicker" Grid.Column="1" Margin="0,0,20,0"/>
                 
                 <TextBlock Grid.Column="2" Text="To:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                <DatePicker Grid.Column="3" Margin="0,0,20,0"/>
+                <DatePicker x:Name="ToDatePicker" Grid.Column="3" Margin="0,0,20,0"/>
                 
-                <Button Grid.Column="5" Content="Filter" Padding="15,5" Background="#3E91FF" Foreground="White" BorderThickness="0"/>
+                <Button Grid.Column="5" Content="Filter" Padding="15,5" Background="#3E91FF" Foreground="White" BorderThickness="0" Click="FilterButton_Click"/>
             </Grid>
         </StackPanel>
         
         <!-- Sales Data Table -->
-        <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Margin="20">
+        <DataGrid Grid.Row="1" ItemsSource="{Binding Sales}" AutoGenerateColumns="False" IsReadOnly="True" Margin="20" AlternatingRowBackground="#F5F5F5">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Order ID" Width="100" Binding="{Binding OrderId}"/>
-                <DataGridTextColumn Header="Date" Width="150" Binding="{Binding Date}"/>
-                <DataGridTextColumn Header="Time" Width="100" Binding="{Binding Time}"/>
-                <DataGridTextColumn Header="Items" Width="*" Binding="{Binding Items}"/>
-                <DataGridTextColumn Header="Total Amount" Width="120" Binding="{Binding TotalAmount}"/>
-                <DataGridTextColumn Header="Payment Method" Width="150" Binding="{Binding PaymentMethod}"/>
-                <DataGridTemplateColumn Header="Actions" Width="100">
+                <DataGridTextColumn Header="Order ID" Width="80" Binding="{Binding Id}"/>
+                <DataGridTextColumn Header="Date" Width="180" Binding="{Binding SaleDate, StringFormat='{}{0:dd/MM/yyyy hh:mm tt}'}"/>
+                <DataGridTextColumn Header="Total Amount" Width="120" Binding="{Binding TotalAmount, StringFormat='{}{0:C2}'}"/>
+                <DataGridTextColumn Header="Payment" Width="120" Binding="{Binding PaymentAmount, StringFormat='{}{0:C2}'}"/>
+                <DataGridTextColumn Header="Change" Width="120" Binding="{Binding ChangeAmount, StringFormat='{}{0:C2}'}"/>
+                <DataGridTemplateColumn Header="Actions" Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Button Content="View" Background="#4CAF50" Foreground="White" BorderThickness="0" Padding="10,2"/>
+                            <Button Content="View Details" Background="#4CAF50" Foreground="White" BorderThickness="0" Padding="10,3" Click="ViewSaleDetails_Click"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        
+        <!-- Status bar -->
+        <StatusBar Grid.Row="2">
+            <TextBlock x:Name="StatusTextBlock" Text="Ready"/>
+        </StatusBar>
     </Grid>
 </Window>

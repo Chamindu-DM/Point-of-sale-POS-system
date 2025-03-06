@@ -7,7 +7,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using CheeseBakesPOS.Data;
 using CheeseBakesPOS.Models;
+using Microsoft.EntityFrameworkCore; // Add this for ToListAsync and other EF Core methods
 
 namespace CheeseBakesPOS
 {
@@ -55,32 +57,69 @@ namespace CheeseBakesPOS
             DataContext = this;
 
             // Initialize collections
-            Products = new ObservableCollection<Product>
-            {
-                new Product
-                {
-                    Name = "Tea Bun",
-                    Price = 50.00m,
-                    InStock = 12,
-                    ImageSource = "/Images/tea_bun.jpg"
-                },
-                new Product
-                {
-                    Name = "Fish Bun",
-                    Price = 70.00m,
-                    InStock = 12,
-                    ImageSource = "/Images/fish_bun.jpg"
-                },
-                new Product
-                {
-                    Name = "Chicken Puff",
-                    Price = 250.00m,
-                    InStock = 12,
-                    ImageSource = "/Images/Chicken Puff.jpeg"
-                }
-            };
-
+            Products = new ObservableCollection<Product>();
             CartItems = new ObservableCollection<CartItem>();
+
+            // Initialize database and load products
+            InitializeDatabaseAsync();
+        }
+
+        private async void InitializeDatabaseAsync()
+        {
+            try
+            {
+                using (var context = new ApplicationDbContext())
+                {
+                    // Ensure database is created
+                    await context.Database.EnsureCreatedAsync();
+
+                    // Check if we need to add sample data
+                    if (!context.Products.Any())
+                    {
+                        // Add sample products
+                        context.Products.AddRange(
+                            new Product
+                            {
+                                Name = "Tea Bun",
+                                Category = "Buns",
+                                Price = 50.00m,
+                                InStock = 12,
+                                ImageSource = "/Images/tea_bun.jpg"
+                            },
+                            new Product
+                            {
+                                Name = "Fish Bun",
+                                Category = "Buns",
+                                Price = 70.00m,
+                                InStock = 12,
+                                ImageSource = "/Images/fish_bun.jpg"
+                            },
+                            new Product
+                            {
+                                Name = "Chicken Puff",
+                                Category = "Pastries", 
+                                Price = 250.00m,
+                                InStock = 12,
+                                ImageSource = "/Images/Chicken Puff.jpeg"
+                            }
+                        );
+                        await context.SaveChangesAsync();
+                    }
+
+                    // Load products from database
+                    var products = await context.Products.ToListAsync();
+                    Products.Clear();
+                    foreach (var product in products)
+                    {
+                        Products.Add(product);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Database initialization error: {ex.Message}\n{ex.StackTrace}", 
+                    "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         protected void OnPropertyChanged(string propertyName)
@@ -158,35 +197,81 @@ namespace CheeseBakesPOS
             CalculateTotalAmount();
         }
 
-        private void Checkout_Click(object sender, RoutedEventArgs e)
+        private async void Checkout_Click(object sender, RoutedEventArgs e)
         {
             // Get the payment amount
             decimal paymentAmount;
-            bool isValidPayment = decimal.TryParse(PaymentTextBox.Text, out paymentAmount);
-
-            if (!isValidPayment)
+            if (!decimal.TryParse(PaymentTextBox.Text, out paymentAmount) || paymentAmount < TotalAmount)
             {
-                MessageBox.Show("Please enter a valid payment amount.", "Invalid Payment", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show("Please enter a valid payment amount equal to or greater than the total.", "Invalid Payment", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
-            if (paymentAmount < TotalAmount)
+            var changeAmount = paymentAmount - TotalAmount;
+
+            try
             {
-                MessageBox.Show("Payment amount is less than the total.", "Insufficient Payment", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
+                using (var context = new ApplicationDbContext())
+                {
+                    // Create and populate the sale
+                    var sale = new Sale
+                    {
+                        SaleDate = DateTime.Now,
+                        TotalAmount = TotalAmount,
+                        PaymentAmount = paymentAmount,
+                        ChangeAmount = changeAmount,
+                        Items = new List<SaleItem>()
+                    };
+
+                    // Process each cart item
+                    foreach (var cartItem in CartItems)
+                    {
+                        // Update product inventory
+                        var product = context.Products.FirstOrDefault(p => p.Name == cartItem.Name);
+                        if (product != null)
+                        {
+                            product.InStock -= cartItem.Quantity;
+                        }
+                        
+                        // Add to sale items
+                        sale.Items.Add(new SaleItem
+                        {
+                            ProductId = product?.Id ?? 0,
+                            ProductName = cartItem.Name,
+                            Price = cartItem.Price,
+                            Quantity = cartItem.Quantity,
+                            Total = cartItem.Total
+                        });
+                    }
+
+                    // Add to database and save
+                    context.Sales.Add(sale);
+                    await context.SaveChangesAsync();
+
+                    // Show success message
+                    MessageBox.Show($"Sale completed!\n\nTotal: ${TotalAmount:F2}\nPayment: ${paymentAmount:F2}\nChange: ${changeAmount:F2}", 
+                        "Checkout Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+                    
+                    // Clear the cart
+                    CartItems.Clear();
+                    CalculateTotalAmount();
+                    PaymentTextBox.Text = string.Empty;
+                }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error saving sale: {ex.Message}", "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
 
-            // Calculate change
-            decimal change = paymentAmount - TotalAmount;
-
-            // Show success message
-            MessageBox.Show($"Payment successful!\nTotal: Rs. {TotalAmount:F2}\nPaid: Rs. {paymentAmount:F2}\nChange: Rs. {change:F2}",
-                "Checkout Complete", MessageBoxButton.OK, MessageBoxImage.Information);
-
-            // Clear cart
-            CartItems.Clear();
-            PaymentTextBox.Text = string.Empty;
-            CalculateTotalAmount();
+        // Helper method to get product ID from name
+        private int GetProductId(string productName)
+        {
+            using (var context = new ApplicationDbContext())
+            {
+                var product = context.Products.FirstOrDefault(p => p.Name == productName);
+                return product?.Id ?? 0;
+            }
         }
 
         private void SalesButton_Click(object sender, RoutedEventArgs e)
