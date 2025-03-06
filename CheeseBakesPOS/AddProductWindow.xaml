@@ -5,8 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CheeseBakesPOS"
         mc:Ignorable="d"
-        Title="Add New Product" Height="500" Width="500" 
-        WindowStartupLocation="CenterScreen">
+        Title="Add Product" Height="500" Width="500" WindowStartupLocation="CenterOwner">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -14,55 +13,52 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
-        <TextBlock Grid.Row="0" Text="Add New Product" FontSize="24" FontWeight="Bold" Margin="0,0,0,20"/>
+        <TextBlock Text="Add New Product" FontSize="24" FontWeight="Bold" Margin="0,0,0,20" Grid.Row="0"/>
         
-        <ScrollViewer Grid.Row="1">
-            <StackPanel>
-                <!-- Product Name -->
-                <TextBlock Text="Product Name" Margin="0,5"/>
-                <TextBox Padding="5" Margin="0,0,0,15"/>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            
+            <StackPanel Grid.Column="0" Margin="0,0,10,0">
+                <TextBlock Text="Product Name:" Margin="0,0,0,5"/>
+                <TextBox x:Name="ProductNameTextBox" Margin="0,0,0,15"/>
                 
-                <!-- Category -->
-                <TextBlock Text="Category" Margin="0,5"/>
-                <ComboBox Padding="5" Margin="0,0,0,15">
-                    <ComboBoxItem Content="Short Eats"/>
-                    <ComboBoxItem Content="Sweets"/>
-                    <ComboBoxItem Content="Cakes"/>
+                <TextBlock Text="Category:" Margin="0,0,0,5"/>
+                <ComboBox x:Name="CategoryComboBox" IsEditable="True" Margin="0,0,0,15">
+                    <ComboBoxItem>Buns</ComboBoxItem>
+                    <ComboBoxItem>Pastries</ComboBoxItem>
+                    <ComboBoxItem>Desserts</ComboBoxItem>
+                    <ComboBoxItem>Beverages</ComboBoxItem>
+                    <ComboBoxItem>Other</ComboBoxItem>
                 </ComboBox>
                 
-                <!-- Price -->
-                <TextBlock Text="Price (Ru.)" Margin="0,5"/>
-                <TextBox Padding="5" Margin="0,0,0,15"/>
+                <TextBlock Text="Price:" Margin="0,0,0,5"/>
+                <TextBox x:Name="PriceTextBox" Margin="0,0,0,15"/>
                 
-                <!-- Initial Stock -->
-                <TextBlock Text="Initial Stock" Margin="0,5"/>
-                <TextBox Padding="5" Margin="0,0,0,15"/>
+                <TextBlock Text="Stock Quantity:" Margin="0,0,0,5"/>
+                <TextBox x:Name="StockTextBox" Margin="0,0,0,15"/>
                 
-                <!-- Description -->
-                <TextBlock Text="Description" Margin="0,5"/>
-                <TextBox Padding="5" Height="80" TextWrapping="Wrap" AcceptsReturn="True" Margin="0,0,0,15"/>
-                
-                <!-- Product Image -->
-                <TextBlock Text="Product Image" Margin="0,5"/>
-                <Grid Margin="0,0,0,15">
+                <TextBlock Text="Image Path:" Margin="0,0,0,5"/>
+                <Grid>
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox Grid.Column="0" Padding="5" IsReadOnly="True"/>
-                    <Button Grid.Column="1" Content="Browse..." Padding="15,5" Margin="10,0,0,0"/>
+                    <TextBox x:Name="ImagePathTextBox" Grid.Column="0"/>
+                    <Button Content="Browse" Grid.Column="1" Margin="5,0,0,0" Padding="5,0" Click="BrowseButton_Click"/>
                 </Grid>
-                
-                <!-- Image Preview -->
-                <Border Height="150" Background="LightGray" Margin="0,0,0,15">
-                    <TextBlock Text="Image Preview" VerticalAlignment="Center" HorizontalAlignment="Center" Foreground="Gray"/>
-                </Border>
             </StackPanel>
-        </ScrollViewer>
+            
+            <Border Grid.Column="1" BorderBrush="#CCCCCC" BorderThickness="1" Margin="10,0,0,0">
+                <Image x:Name="ProductImage" Stretch="Uniform"/>
+            </Border>
+        </Grid>
         
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,20,0,0">
-            <Button Content="Cancel" Padding="20,5" Background="#E0E0E0" BorderThickness="0" Margin="0,0,10,0" Click="CancelButton_Click"/>
-            <Button Content="Save Product" Padding="20,5" Background="#4CAF50" Foreground="White" BorderThickness="0" Click="SaveButton_Click"/>
+            <Button x:Name="CancelButton" Content="Cancel" Width="100" Margin="0,0,10,0" Click="CancelButton_Click"/>
+            <Button x:Name="SaveButton" Content="Save" Width="100" Background="#3E91FF" Foreground="White" Click="SaveButton_Click"/>
         </StackPanel>
     </Grid>
 </Window>

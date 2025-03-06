@@ -155,3 +155,5 @@ C:\Users\chami\Documents\GitHub\Point-of-sale-POS-system\CheeseBakesPOS\obj\Debu
 C:\Users\chami\Documents\GitHub\Point-of-sale-POS-system\CheeseBakesPOS\obj\Debug\net8.0-windows\CheeseBakesPOS.pdb
 C:\Users\chami\Documents\GitHub\Point-of-sale-POS-system\CheeseBakesPOS\obj\Debug\net8.0-windows\CheeseBakesPOS.genruntimeconfig.cache
 C:\Users\chami\Documents\GitHub\Point-of-sale-POS-system\CheeseBakesPOS\obj\Debug\net8.0-windows\ref\CheeseBakesPOS.dll
+C:\Users\chami\Documents\GitHub\Point-of-sale-POS-system\CheeseBakesPOS\obj\Debug\net8.0-windows\UpdateStockDialog.g.cs
+C:\Users\chami\Documents\GitHub\Point-of-sale-POS-system\CheeseBakesPOS\obj\Debug\net8.0-windows\UpdateStockDialog.baml

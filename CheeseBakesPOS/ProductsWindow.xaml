@@ -5,66 +5,44 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:CheeseBakesPOS"
         mc:Ignorable="d"
-        Title="Products" Height="600" Width="900">
+        Title="Product Management" Height="600" Width="900" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
+        <!-- Header -->
         <StackPanel Grid.Row="0" Margin="20,20,20,10">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Product List" FontSize="24" FontWeight="Bold"/>
-                <Button Grid.Column="1" Content="Add New Product" Padding="15,5" Background="#3E91FF" Foreground="White" BorderThickness="0" Click="AddNewProduct_Click"/>
-            </Grid>
+            <TextBlock Text="Product Management" FontSize="24" FontWeight="Bold" Margin="0,0,0,10"/>
             
-            <!-- Filter controls -->
-            <Grid Margin="0,20,0,10">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="200"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                
-                <TextBlock Grid.Column="0" Text="Category:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                <ComboBox Grid.Column="1" Margin="0,0,20,0">
-                    <ComboBoxItem Content="All Categories"/>
-                    <ComboBoxItem Content="Short Eats"/>
-                    <ComboBoxItem Content="Sweets"/>
-                    <ComboBoxItem Content="Cakes"/>
-                </ComboBox>
-                
-                <TextBlock Grid.Column="2" Text="Search:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                <TextBox Grid.Column="3" Padding="5,2"/>
-            </Grid>
+            <!-- Toolbar -->
+            <ToolBar>
+                <Button Content="Add New Product" Click="AddButton_Click" Padding="10,5"/>
+                <Button Content="Edit Product" Click="EditButton_Click" Padding="10,5" Margin="10,0,0,0"/>
+                <Button Content="Delete Product" Click="DeleteButton_Click" Padding="10,5" Margin="10,0,0,0"/>
+                <Button Content="Refresh" Click="RefreshButton_Click" Padding="10,5" Margin="10,0,0,0"/>
+            </ToolBar>
         </StackPanel>
         
-        <!-- Products Data Grid -->
-        <DataGrid Grid.Row="1" AutoGenerateColumns="False" IsReadOnly="True" Margin="20">
+        <!-- Products Grid -->
+        <DataGrid x:Name="ProductsDataGrid" Grid.Row="1" Margin="20" 
+                  AutoGenerateColumns="False" IsReadOnly="True"
+                  SelectionMode="Single" SelectionUnit="FullRow">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="ID" Width="60" Binding="{Binding Id}"/>
-                <DataGridTextColumn Header="Name" Width="150" Binding="{Binding Name}"/>
-                <DataGridTextColumn Header="Category" Width="120" Binding="{Binding Category}"/>
-                <DataGridTextColumn Header="Price" Width="100" Binding="{Binding Price}"/>
-                <DataGridTextColumn Header="In Stock" Width="80" Binding="{Binding InStock}"/>
-                <DataGridTextColumn Header="Description" Width="*" Binding="{Binding Description}"/>
-                <DataGridTemplateColumn Header="Actions" Width="150">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal">
-                                <Button Content="Edit" Background="#3E91FF" Foreground="White" BorderThickness="0" Padding="10,2" Margin="0,0,5,0"/>
-                                <Button Content="Delete" Background="#E74C3C" Foreground="White" BorderThickness="0" Padding="10,2"/>
-                            </StackPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                <DataGridTextColumn Header="ID" Binding="{Binding Id}" Width="50"/>
+                <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="200"/>
+                <DataGridTextColumn Header="Category" Binding="{Binding Category}" Width="150"/>
+                <DataGridTextColumn Header="Price" Binding="{Binding Price, StringFormat={}{0:C2}}" Width="100"/>
+                <DataGridTextColumn Header="In Stock" Binding="{Binding InStock}" Width="100"/>
+                <DataGridTextColumn Header="Image Path" Binding="{Binding ImageSource}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
+        
+        <!-- Status Bar -->
+        <StatusBar Grid.Row="2">
+            <TextBlock x:Name="StatusText" Text="Ready"/>
+        </StatusBar>
     </Grid>
 </Window>

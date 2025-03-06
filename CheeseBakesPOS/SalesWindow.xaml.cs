@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;  // Add this for StringBuilder
+using System.Text;  // For StringBuilder
 using System.Windows;
 using System.Windows.Controls;
 
@@ -73,52 +73,6 @@ namespace CheeseBakesPOS
         {
             // Reload sales data
             LoadSalesData();
-        }
-
-        private void FilterButton_Click(object sender, RoutedEventArgs e)
-        {
-            // Get date range from date pickers
-            DateTime? startDate = FromDatePicker.SelectedDate;
-            DateTime? endDate = ToDatePicker.SelectedDate;
-            
-            try
-            {
-                // Clear existing sales
-                Sales.Clear();
-                
-                // Start building query
-                var query = _context.Sales.Include(s => s.Items).AsQueryable();
-                
-                // Apply date filters if selected
-                if (startDate.HasValue)
-                {
-                    query = query.Where(s => s.SaleDate >= startDate.Value);
-                }
-                
-                if (endDate.HasValue)
-                {
-                    // Add one day to include the end date fully
-                    query = query.Where(s => s.SaleDate < endDate.Value.AddDays(1));
-                }
-                
-                // Execute query
-                var filteredSales = query.OrderByDescending(s => s.SaleDate).ToList();
-                
-                // Add filtered sales to observable collection
-                foreach (var sale in filteredSales)
-                {
-                    Sales.Add(sale);
-                }
-                
-                // Update status
-                StatusTextBlock.Text = $"Showing {filteredSales.Count} sales records";
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error filtering sales: {ex.Message}", 
-                    "Database Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                StatusTextBlock.Text = "Error filtering sales data";
-            }
         }
 
         private void ViewSaleDetails_Click(object sender, RoutedEventArgs e)

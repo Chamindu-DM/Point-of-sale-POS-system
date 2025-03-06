@@ -10,6 +10,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         
         <StackPanel Grid.Row="0" Margin="20,20,20,10">
@@ -22,57 +23,44 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Filter by Category:" VerticalAlignment="Center" Margin="0,0,10,0"/>
-                    <ComboBox Width="150" SelectedIndex="0" SelectionChanged="CategoryFilter_Changed">
-                        <ComboBoxItem Content="All Categories"/>
-                        <ComboBoxItem Content="Short Eats"/>
-                        <ComboBoxItem Content="Sweets"/>
-                        <ComboBoxItem Content="Cakes"/>
-                    </ComboBox>
+                    <ComboBox x:Name="CategoryComboBox" Width="150" SelectedIndex="0" SelectionChanged="CategoryFilter_Changed"/>
                 </StackPanel>
-                <Button Grid.Column="1" Content="Update Inventory" Padding="15,5" Background="#3E91FF" Foreground="White" BorderThickness="0" Click="UpdateInventory_Click"/>
+                <Button Grid.Column="1" Content="Refresh" Padding="15,5" Background="#3E91FF" Foreground="White" BorderThickness="0" Click="RefreshInventory_Click"/>
             </Grid>
         </StackPanel>
         
         <!-- Inventory Data Grid -->
-        <Grid Grid.Row="1" Margin="20">
-            <TabControl>
-                <!-- Each tab represents a category -->
-                <TabItem Header="Short Eats">
-                    <DataGrid AutoGenerateColumns="False" IsReadOnly="False">
-                        <DataGrid.Columns>
-                            <DataGridTextColumn Header="ID" Width="60" Binding="{Binding Id}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Name" Width="150" Binding="{Binding Name}" IsReadOnly="True"/>
-                            <DataGridTextColumn Header="Current Stock" Width="100" Binding="{Binding InStock}"/>
-                            <DataGridTextColumn Header="Reorder Level" Width="100" Binding="{Binding ReorderLevel}"/>
-                            <DataGridTextColumn Header="Price" Width="100" Binding="{Binding Price}" IsReadOnly="True"/>
-                            <DataGridTemplateColumn Header="Status" Width="120">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Status}" Foreground="{Binding StatusColor}"/>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                            <DataGridTemplateColumn Header="Actions" Width="*">
-                                <DataGridTemplateColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <StackPanel Orientation="Horizontal">
-                                            <Button Content="Add Stock" Background="#4CAF50" Foreground="White" BorderThickness="0" Padding="10,2" Margin="0,0,5,0"/>
-                                        </StackPanel>
-                                    </DataTemplate>
-                                </DataGridTemplateColumn.CellTemplate>
-                            </DataGridTemplateColumn>
-                        </DataGrid.Columns>
-                    </DataGrid>
-                </TabItem>
-                
-                <TabItem Header="Sweets">
-                    <!-- Similar DataGrid structure as Short Eats -->
-                </TabItem>
-                
-                <TabItem Header="Cakes">
-                    <!-- Similar DataGrid structure as Short Eats -->
-                </TabItem>
-            </TabControl>
-        </Grid>
+        <DataGrid x:Name="InventoryDataGrid" Grid.Row="1" Margin="20" 
+                  AutoGenerateColumns="False" IsReadOnly="False" AlternatingRowBackground="#F5F5F5">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ID" Width="60" Binding="{Binding Id}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Name" Width="150" Binding="{Binding Name}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Category" Width="120" Binding="{Binding Category}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Current Stock" Width="100" Binding="{Binding InStock}"/>
+                <DataGridTextColumn Header="Price" Width="100" Binding="{Binding Price, StringFormat={}{0:C2}}" IsReadOnly="True"/>
+                <DataGridTemplateColumn Header="Status" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Status}" Foreground="{Binding StatusColor}"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Actions" Width="*">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Button Content="Update Stock" Background="#4CAF50" Foreground="White" 
+                                        BorderThickness="0" Padding="10,2" Margin="0,0,5,0" Click="UpdateStock_Click"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
+        
+        <!-- Status Bar -->
+        <StatusBar Grid.Row="2">
+            <TextBlock x:Name="StatusTextBlock" Text="Ready"/>
+        </StatusBar>
     </Grid>
 </Window>

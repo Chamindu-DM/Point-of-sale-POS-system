@@ -3,6 +3,14 @@
   "WorkspaceRootPath": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{7D15D369-5923-4EF7-A8EF-9FC7B9DC5588}|CheeseBakesPOS.csproj|c:\\users\\chami\\documents\\github\\point-of-sale-pos-system\\cheesebakespos\\inventorywindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{7D15D369-5923-4EF7-A8EF-9FC7B9DC5588}|CheeseBakesPOS.csproj|solutionrelative:inventorywindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{7D15D369-5923-4EF7-A8EF-9FC7B9DC5588}|CheeseBakesPOS.csproj|c:\\users\\chami\\documents\\github\\point-of-sale-pos-system\\cheesebakespos\\updatestockdialog.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{7D15D369-5923-4EF7-A8EF-9FC7B9DC5588}|CheeseBakesPOS.csproj|solutionrelative:updatestockdialog.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{7D15D369-5923-4EF7-A8EF-9FC7B9DC5588}|CheeseBakesPOS.csproj|c:\\users\\chami\\documents\\github\\point-of-sale-pos-system\\cheesebakespos\\migrations\\20250306080436_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{7D15D369-5923-4EF7-A8EF-9FC7B9DC5588}|CheeseBakesPOS.csproj|solutionrelative:migrations\\20250306080436_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -31,10 +39,6 @@
       "RelativeMoniker": "D:0:0:{7D15D369-5923-4EF7-A8EF-9FC7B9DC5588}|CheeseBakesPOS.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7D15D369-5923-4EF7-A8EF-9FC7B9DC5588}|CheeseBakesPOS.csproj|c:\\users\\chami\\documents\\github\\point-of-sale-pos-system\\cheesebakespos\\inventorywindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{7D15D369-5923-4EF7-A8EF-9FC7B9DC5588}|CheeseBakesPOS.csproj|solutionrelative:inventorywindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{7D15D369-5923-4EF7-A8EF-9FC7B9DC5588}|CheeseBakesPOS.csproj|c:\\users\\chami\\documents\\github\\point-of-sale-pos-system\\cheesebakespos\\saleswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
       "RelativeMoniker": "D:0:0:{7D15D369-5923-4EF7-A8EF-9FC7B9DC5588}|CheeseBakesPOS.csproj|solutionrelative:saleswindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
     },
@@ -58,37 +62,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "20250306080436_InitialCreate.cs",
-              "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\Migrations\\20250306080436_InitialCreate.cs",
-              "RelativeDocumentMoniker": "Migrations\\20250306080436_InitialCreate.cs",
-              "ToolTip": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\Migrations\\20250306080436_InitialCreate.cs",
-              "RelativeToolTip": "Migrations\\20250306080436_InitialCreate.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-06T08:04:37.556Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ProductService.cs",
-              "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\Services\\ProductService.cs",
-              "RelativeDocumentMoniker": "Services\\ProductService.cs",
-              "ToolTip": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\Services\\ProductService.cs",
-              "RelativeToolTip": "Services\\ProductService.cs",
-              "ViewState": "AgIAAEEAAAAAAAAAAAAcwEoAAAAIAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-05T15:59:49.301Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "ProductsWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\ProductsWindow.xaml.cs",
               "RelativeDocumentMoniker": "ProductsWindow.xaml.cs",
@@ -100,7 +78,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\MainWindow.xaml",
               "RelativeDocumentMoniker": "MainWindow.xaml",
@@ -111,7 +89,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "CheeseBakesPOS.csproj",
               "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\CheeseBakesPOS.csproj",
               "RelativeDocumentMoniker": "CheeseBakesPOS.csproj",
@@ -123,7 +101,55 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 0,
+              "Title": "InventoryWindow.xaml.cs",
+              "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\InventoryWindow.xaml.cs",
+              "RelativeDocumentMoniker": "InventoryWindow.xaml.cs",
+              "ToolTip": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\InventoryWindow.xaml.cs",
+              "RelativeToolTip": "InventoryWindow.xaml.cs",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAowG0AAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-05T03:57:25.447Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ProductService.cs",
+              "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\Services\\ProductService.cs",
+              "RelativeDocumentMoniker": "Services\\ProductService.cs",
+              "ToolTip": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\Services\\ProductService.cs",
+              "RelativeToolTip": "Services\\ProductService.cs",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAcwEoAAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-05T15:59:49.301Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "UpdateStockDialog.xaml",
+              "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\UpdateStockDialog.xaml",
+              "RelativeDocumentMoniker": "UpdateStockDialog.xaml",
+              "ToolTip": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\UpdateStockDialog.xaml",
+              "RelativeToolTip": "UpdateStockDialog.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-03-06T10:50:06.93Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "20250306080436_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\Migrations\\20250306080436_InitialCreate.cs",
+              "RelativeDocumentMoniker": "Migrations\\20250306080436_InitialCreate.cs",
+              "ToolTip": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\Migrations\\20250306080436_InitialCreate.cs",
+              "RelativeToolTip": "Migrations\\20250306080436_InitialCreate.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-03-06T08:04:37.556Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
               "Title": "InventoryWindow.xaml",
               "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\InventoryWindow.xaml",
               "RelativeDocumentMoniker": "InventoryWindow.xaml",
@@ -134,7 +160,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "AddProductWindow.xaml",
               "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\AddProductWindow.xaml",
               "RelativeDocumentMoniker": "AddProductWindow.xaml",
@@ -145,7 +171,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "SalesWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\SalesWindow.xaml.cs",
               "RelativeDocumentMoniker": "SalesWindow.xaml.cs",
@@ -157,7 +183,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "SalesWindow.xaml",
               "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\SalesWindow.xaml",
               "RelativeDocumentMoniker": "SalesWindow.xaml",
@@ -168,19 +194,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "InventoryWindow.xaml.cs",
-              "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\InventoryWindow.xaml.cs",
-              "RelativeDocumentMoniker": "InventoryWindow.xaml.cs",
-              "ToolTip": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\InventoryWindow.xaml.cs",
-              "RelativeToolTip": "InventoryWindow.xaml.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-03-05T03:57:25.447Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
@@ -192,7 +206,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "ProductsWindow.xaml",
               "DocumentMoniker": "C:\\Users\\chami\\Documents\\GitHub\\Point-of-sale-POS-system\\CheeseBakesPOS\\ProductsWindow.xaml",
               "RelativeDocumentMoniker": "ProductsWindow.xaml",

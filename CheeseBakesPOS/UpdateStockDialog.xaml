@@ -1,0 +1,35 @@
+﻿<Window x:Class="CheeseBakesPOS.UpdateStockDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:CheeseBakesPOS"
+        mc:Ignorable="d"
+        Title="Update Stock" Height="200" Width="350" WindowStartupLocation="CenterOwner" ResizeMode="NoResize">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
+        <TextBlock Grid.Row="0" x:Name="ProductNameTextBlock" FontWeight="Bold" FontSize="16" Margin="0,0,0,10"/>
+        
+        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="Current Stock:" Width="120"/>
+            <TextBlock x:Name="CurrentStockTextBlock" Text="0"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,0,0,10">
+            <TextBlock Text="New Stock Level:" Width="120" VerticalAlignment="Center"/>
+            <TextBox x:Name="NewStockTextBox" Width="100" PreviewTextInput="NumberValidationTextBox"/>
+        </StackPanel>
+        
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="Cancel" Width="80" Margin="0,0,10,0" Click="CancelButton_Click"/>
+            <Button Content="Update" Width="80" Background="#4CAF50" Foreground="White" Click="UpdateButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
