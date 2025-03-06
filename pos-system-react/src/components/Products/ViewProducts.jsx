@@ -25,7 +25,13 @@ const ViewProducts = () => {
     };
 
     const handleEdit = (productId) => {
-        navigate(`/products/edit/${productId}`);
+        // Make sure productId is valid before navigating
+        if (productId) {
+            console.log(`Navigating to edit product with ID: ${productId}`);
+            navigate(`/products/edit/${productId}`);
+        } else {
+            alert('Invalid product ID');
+        }
     };
 
     const handleDelete = async (productId) => {

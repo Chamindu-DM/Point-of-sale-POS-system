@@ -9,6 +9,7 @@ import SidePanel from "./components/SidePanel/SidePanel";
 import AddProduct from './components/Products/AddProduct';
 import ViewProducts from './components/Products/ViewProducts';
 import InventoryPage from './components/Inventory/InventoryPage';
+import EditProduct from './components/Products/EditProduct';
 import "./styles.css";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
@@ -239,6 +240,7 @@ const App = () => {
             <Route path="/products/add" element={<AddProduct />} />
             <Route path="/products" element={<ViewProducts />} />
             <Route path="/inventory" element={<InventoryPage />} />
+            <Route path="/products/edit/:productId" element={<EditProduct />} />
           </Routes>
         </div>
       </div>
